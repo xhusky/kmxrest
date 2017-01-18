@@ -97,8 +97,8 @@ public class OkhttpUtils {
      * @return 返回结果
      * @throws IOException
      */
-    public static Response post(String url, Map<String, String> params) throws IOException {
-        return createPostCall(url, params).execute();
+    public static Response post(String url, Headers headers, Map<String, String> params) throws IOException {
+        return createPostCall(url, headers, params).execute();
     }
 
     /**
@@ -108,8 +108,8 @@ public class OkhttpUtils {
      * @param params 请求参数
      * @param callback 回调
      */
-    public static void post(String url, Map<String, String> params, Callback callback) {
-        createPostCall(url, params).enqueue(callback);
+    public static void post(String url, Headers headers, Map<String, String> params, Callback callback) {
+        createPostCall(url, headers, params).enqueue(callback);
     }
 
     /**
@@ -121,8 +121,33 @@ public class OkhttpUtils {
      * @return 返回结果
      * @throws IOException
      */
-    public static Response post(String url, Map<String, String> params, Map<String, File> files) throws IOException {
-        return createPostCall(url, params, files).execute();
+    public static Response post(String url, Headers headers, Map<String, String> params, Map<String, File> files) throws IOException {
+        return createPostCall(url, headers, params, files).execute();
+    }
+
+    /**
+     * post异步请求
+     *
+     * @param url
+     * @param mediaType
+     * @param raw
+     * @param callback
+     */
+    public static void post(String url, MediaType mediaType, String raw, Callback callback) {
+        createPostCall(url, mediaType, raw).enqueue(callback);
+    }
+
+    /**
+     * post同步请求
+     *
+     * @param url
+     * @param mediaType
+     * @param raw
+     * @return
+     * @throws IOException
+     */
+    public static Response post(String url, MediaType mediaType, String raw) throws IOException {
+        return createPostCall(url, mediaType, raw).execute();
     }
 
     /**
@@ -133,8 +158,8 @@ public class OkhttpUtils {
      * @param files 提交的文件
      * @param callback 回调
      */
-    public static void post(String url, Map<String, String> params, Map<String, File> files, Callback callback) {
-        createPostCall(url, params, files).enqueue(callback);
+    public static void post(String url, Headers headers, Map<String, String> params, Map<String, File> files, Callback callback) {
+        createPostCall(url, headers, params, files).enqueue(callback);
     }
 
     /**
@@ -191,7 +216,7 @@ public class OkhttpUtils {
      * @param files
      * @return
      */
-    private static Call createPostCall(String url, Map<String, String> params, Map<String, File> files) {
+    private static Call createPostCall(String url, Headers headers, Map<String, String> params, Map<String, File> files) {
         okhttp3.MultipartBody.Builder builder = new MultipartBody.Builder();
         // 上传的参数
         if (params != null && !params.isEmpty()) {
@@ -224,7 +249,7 @@ public class OkhttpUtils {
             }
         }
         RequestBody requestBody = builder.build();
-        Request request = new Request.Builder().url(url).post(requestBody).build();
+        Request request = new Request.Builder().url(url).headers(headers).post(requestBody).build();
         return client.newCall(request);
     }
 
@@ -235,14 +260,27 @@ public class OkhttpUtils {
      * @param params
      * @return
      */
-    private static Call createPostCall(String url, Map<String, String> params) {
+    private static Call createPostCall(String url, Headers headers, Map<String, String> params) {
         Builder builder = new FormBody.Builder();
         if (params != null && !params.isEmpty()) {
             for (Entry<String, String> entry : params.entrySet()) {
                 builder.add(entry.getKey(), entry.getValue());
             }
         }
-        RequestBody requestBody = builder.build();
+        RequestBody requestBody = RequestBody.create(MediaType.parse("application/json"), params.get("query"));
+        Request request = new Request.Builder().url(url).headers(headers).post(requestBody).build();
+        return client.newCall(request);
+    }
+
+    /**
+     * 生成 post 请求的 {@link Call} 对象
+     *
+     * @param url
+     * @param raw
+     * @return
+     */
+    private static Call createPostCall(String url, MediaType mediaType, String raw) {
+        RequestBody requestBody = RequestBody.create(mediaType, raw);
         Request request = new Request.Builder().url(url).post(requestBody).build();
         return client.newCall(request);
     }

@@ -1,10 +1,7 @@
 package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.enums.KmxCondType;
-import com.k2data.app.kmx.enums.KmxRestVersion;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**

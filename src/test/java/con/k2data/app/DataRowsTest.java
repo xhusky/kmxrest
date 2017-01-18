@@ -140,7 +140,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRowsDomain dataRowsDomain = KmxClient.postSync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));

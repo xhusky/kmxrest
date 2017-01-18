@@ -2,7 +2,10 @@ package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.domain.DataStreamsDomain;
-import com.k2data.app.kmx.enums.*;
+import com.k2data.app.kmx.enums.Aggregation;
+import com.k2data.app.kmx.enums.KmxCondType;
+import com.k2data.app.kmx.enums.Order;
+import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
 
 import java.util.*;

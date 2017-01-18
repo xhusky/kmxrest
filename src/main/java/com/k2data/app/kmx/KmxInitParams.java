@@ -1,6 +1,5 @@
 package com.k2data.app.kmx;
 
-import com.k2data.app.kmx.cond.KmxCond;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.KmxRestVersion;
 
@@ -20,11 +19,24 @@ public class KmxInitParams {
         this.version = version;
     }
 
+    /**
+     * 设置默认主键
+     *
+     * @param idField 主键
+     * @return
+     */
     public KmxInitParams setIdField(String idField) {
         this.idField = idField;
         return this;
     }
 
+    /**
+     * 添加接口类型对应的 url
+     *
+     * @param type 接口类型
+     * @param url 接口地址
+     * @return
+     */
     public KmxInitParams addUrl(KmxCondType type, String url) {
         urls.put(type, url);
         return this;

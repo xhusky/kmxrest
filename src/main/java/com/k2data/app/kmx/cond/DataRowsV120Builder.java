@@ -4,7 +4,6 @@ import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.domain.DataRowsDomain;
 import com.k2data.app.kmx.enums.Aggregation;
 import com.k2data.app.kmx.enums.KmxCondType;
-import com.k2data.app.kmx.enums.KmxRestVersion;
 import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
 

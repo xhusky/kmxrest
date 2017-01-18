@@ -5,7 +5,6 @@ import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.k2data.app.kmx.KmxClient;
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataRowsDomain;
 import com.k2data.app.kmx.domain.DataStreamsDomain;
 import com.k2data.app.kmx.enums.Aggregation;
 import com.k2data.app.kmx.enums.KmxCondType;

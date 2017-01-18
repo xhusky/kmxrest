@@ -98,20 +98,20 @@ public class KmxClient {
      */
     @SuppressWarnings("unchecked")
     public static <T> T postSync(final KmxCond cond) {
-        Map<String, String> params = cond.getParams();
         String url = cond.getUrl();
+        String raw = cond.getParams().get("query").replace("%2B", "+");
 
         try {
             logger.info(String.format("Kmx async post. url: %s", url));
             if (logger.isDebugEnabled()) {
-                logger.debug(String.format("params: %s", params));
+                logger.debug(String.format("params: %s", raw));
             }
 
-            Response response = OkhttpUtils.post(url, params);
+            Response response = OkhttpUtils.post(url, MediaType.parse("application/json"), raw);
 
-            return (T) handleResponse(cond, url, params, response, null);
+            return (T) handleResponse(cond, url, raw, response, null);
         } catch (IOException e) {
-            throw new KmxException(String.format("Kmx post error! url: %s, params: %s", url, params.toString()), e);
+            throw new KmxException(String.format("Kmx post error! url: %s, params: %s", url, raw), e);
         }
     }
 
@@ -123,19 +123,19 @@ public class KmxClient {
      */
     @SuppressWarnings("unchecked")
     public static void postAsync(final KmxCond cond, final KmxResponseHandler handler) {
-        final Map<String, String> params = cond.getParams();
         String url = cond.getUrl();
+        String raw = cond.getParams().get("query").replace("%2B", "+");
 
-        OkhttpUtils.post(url, params, new Callback() {
+        OkhttpUtils.post(url, MediaType.parse("application/json"), raw, new Callback() {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 logger.info(String.format("Kmx async post callback. url: %s", url));
                 if (logger.isDebugEnabled()) {
-                    logger.debug(String.format("params: %s", params));
+                    logger.debug(String.format("raw: %s", raw));
                 }
 
-                handleResponse(cond, url, params, response, handler);
+                handleResponse(cond, url, raw, response, handler);
             }
 
             @Override
@@ -155,10 +155,26 @@ public class KmxClient {
      */
     @SuppressWarnings("unchecked")
     private static Object handleResponse(KmxCond cond, String url, Map<String, String> params, Response response, KmxResponseHandler handler) throws IOException {
+        return handleResponse(cond, url, params, response, handler);
+    }
+
+    /**
+     * 处理 {@link Response}, 把json序列化成对象
+     *
+     * @param response 返回的{@link Response}
+     * @param handler 异步调用的处理接口
+     * @return 序列化后的对象
+     * @throws IOException
+     */
+    @SuppressWarnings("unchecked")
+    private static Object handleResponse(KmxCond cond, String url, String raw, Response response, KmxResponseHandler handler) throws IOException {
         String responseStr = response.body().string();
 
         if (KmxClientUtils.isBlank(responseStr)) {
-            throw new KmxException(String.format("Request Kmx error, Response body is blank! url: %s, params: %s", url, params));
+            throw new KmxException(String.format("Request Kmx error, Response body is blank! Response code: %d, url: %s, params: %s",
+                    response.code(),
+                    url,
+                    raw));
         }
 
         JSONObject rowsJson = JSON.parseObject(responseStr);
@@ -169,7 +185,7 @@ public class KmxClient {
                     rowsJson.getInteger("code"),
                     rowsJson.getString("message"),
                     url,
-                    params));
+                    raw));
         }
 
         if (rowsJson.getInteger("code") != 0) {
@@ -178,7 +194,7 @@ public class KmxClient {
                         rowsJson.getInteger("code"),
                         rowsJson.getString("message"),
                         url,
-                        params));
+                        raw));
             }
         }
 
