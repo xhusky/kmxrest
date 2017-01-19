@@ -1,8 +1,11 @@
 package com.k2data.app.kmx.domain;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.k2data.app.kmx.KmxException;
+import com.k2data.app.kmx.utils.Assert;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,19 +19,36 @@ public class DataRowsResultsDomain {
     private List<String> fields = new ArrayList<>();
     private List<RowDomain> rows = new ArrayList<>();
 
+    @JSONField(serialize = false, deserialize = false)
+    private volatile Map<String, Integer> fieldIdxMap;
+
     /**
      * 获取列的索引值，用于从 rows.value 中 get 取值
      *
      * @param field 字段名
      * @return 索引值
      */
+    @JSONField(serialize = false, deserialize = false)
     public int getFieldIndex(String field) {
-        for (int i = 0; i < fields.size(); i++) {
-            if (field.equals(fields.get(i))) {
-                return i;
+        Assert.notNull(field);
+
+        if (fieldIdxMap == null) {
+            synchronized (this) {
+                if (fieldIdxMap == null) {
+                    fieldIdxMap = new HashMap<>();
+                    for (int i = 0; i < fields.size(); i++) {
+                        fieldIdxMap.put(fields.get(i), i);
+                    }
+                }
             }
         }
-        throw new KmxException("field 未找到, field: " + field + " fields: " + fields);
+
+        Integer idx = fieldIdxMap.get(field);
+        if (idx == null) {
+            throw new KmxException(String.format("field 未找到, input field: %s, fields: %s", field, fields));
+        } else {
+            return fieldIdxMap.get(field);
+        }
     }
 
     public Map<String, String> getCompoundId() {

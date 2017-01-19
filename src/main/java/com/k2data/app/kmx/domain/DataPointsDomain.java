@@ -14,16 +14,6 @@ public class DataPointsDomain {
     private String message;
     private List<DataPointsResultsDomain> results = new ArrayList<>();
 
-    /**
-     * 获取第一个 result
-     *
-     * @return results.get(0)
-     */
-    @JSONField(serialize = false, deserialize = false)
-    public DataPointsResultsDomain getFirstResult() {
-        return getResults().get(0);
-    }
-
     public Integer getCode() {
         return code;
     }

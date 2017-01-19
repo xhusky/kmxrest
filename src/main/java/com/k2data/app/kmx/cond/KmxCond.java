@@ -27,6 +27,10 @@ public class KmxCond {
         return new DataStreamsV120Builder(initParams);
     }
 
+    public static AssetsBuilder assets(KmxInitParams initParams) {
+        return new AssetsBuilder(initParams);
+    }
+
     public String getUrl() {
         return url;
     }

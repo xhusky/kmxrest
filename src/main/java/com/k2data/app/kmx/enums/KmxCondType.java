@@ -7,6 +7,7 @@ public enum KmxCondType {
 
     dataPoints,
     dataRows,
-    dataStreams;
+    dataStreams,
+    assets;
 
 }

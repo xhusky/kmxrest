@@ -32,11 +32,16 @@ public class DataRowsTest {
                 .end("2016-07-08T00:00:00.000%2B08:00")
                 .fields(new String[]{"windSpeed", "pitchAngle"})
                 .valueFilters(" { \"pitchAngle\": { \"$and\": [{\"$gte\": 0}, {\"$lte\": 25}] } }")
-                .aggregations(Aggregation.AVG)
+//                .aggregations(Aggregation.AVG)
 //                .resultFormatIso()
                 .build();
 
         DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+
+        for (int i = 0; i < 10; i++) {
+            System.out.println(dataRowsDomain.getFirstResult().getFieldIndex("pitchAngle"));
+        }
+
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
@@ -66,12 +71,13 @@ public class DataRowsTest {
     @Test
     public void F2_4() {
         KmxCond kmxCond = KmxCond.dataRows(initParams)
-                .idValue("turbine_001_FCJtT_002")
+                .idValue("C206D3")
+                .orIdValue("deviceid", "C20EAD")
                 .start("2012-01-01T00:00:00.000%2b08:00")
                 .end("2017-02-01T23:59:59.999%2b08:00")
-                .fields(new String[]{"windSpeed", "powerActive"})
-                .size(10)
-                .page(1)
+                .fields(new String[]{"accStatus"})
+//                .size(10)
+//                .page(1)
                 .resultFormatIso()
                 .build();
 

@@ -155,7 +155,7 @@ public class KmxClient {
      */
     @SuppressWarnings("unchecked")
     private static Object handleResponse(KmxCond cond, String url, Map<String, String> params, Response response, KmxResponseHandler handler) throws IOException {
-        return handleResponse(cond, url, params, response, handler);
+        return handleResponse(cond, url, params.toString(), response, handler);
     }
 
     /**

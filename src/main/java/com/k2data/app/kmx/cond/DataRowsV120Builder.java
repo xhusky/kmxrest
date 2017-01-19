@@ -163,7 +163,7 @@ public class DataRowsV120Builder extends KmxCondBuilder {
     }
 
     public DataRowsV120Builder andIdValue(String field, String value) {
-        this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
+        this.andIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
