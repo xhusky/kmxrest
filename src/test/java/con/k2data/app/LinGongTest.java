@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class LinGongTest {
 
-    private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V120)
+    private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
             .setIdField("deviceid")
             .addUrl(KmxCondType.dataRows, "http://192.168.130.115:8089/data-service/v4/data-rows")
             .addUrl(KmxCondType.dataPoints, "http://192.168.130.115:8089/data-service/v4/data-points")

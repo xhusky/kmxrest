@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * assets v0.4.0 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
+ *
  * @author lidong 17-1-19.
  */
 public class AssetsBuilder extends KmxCondBuilder {
@@ -19,6 +21,11 @@ public class AssetsBuilder extends KmxCondBuilder {
         this.initParams = initParams;
     }
 
+    /**
+     * 生成查询条件
+     *
+     * @return 查询条件 json
+     */
     @Override
     public KmxCond build() {
         KmxCond kmxCond = new KmxCond();
@@ -29,6 +36,13 @@ public class AssetsBuilder extends KmxCondBuilder {
         return kmxCond;
     }
 
+    /**
+     * 添加 get 请求参数
+     *
+     * @param key
+     * @param value
+     * @return
+     */
     public AssetsBuilder addParams(String key, String value) {
         params.put(key, value);
         return this;

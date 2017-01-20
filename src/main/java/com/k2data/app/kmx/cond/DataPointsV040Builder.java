@@ -10,11 +10,11 @@ import com.k2data.app.kmx.utils.Assert;
 import java.util.*;
 
 /**
- * data-points v1.2 查询条件 builder
+ * data-points v0.4.0 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
  *
  * @author lidong 17-1-16.
  */
-public class DataPointsV120Builder extends KmxCondBuilder {
+public class DataPointsV040Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
@@ -30,7 +30,7 @@ public class DataPointsV120Builder extends KmxCondBuilder {
 
     private String resultFormatIso;
 
-    public DataPointsV120Builder(KmxInitParams initParams) {
+    public DataPointsV040Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -44,23 +44,43 @@ public class DataPointsV120Builder extends KmxCondBuilder {
         Assert.notEmpty(fields, "Fields must not be null");
         Assert.notNull(sampleTime, "SampleTime must not be null");
 
-        String paramsSb = "{" + noSignList(
-                objField("fieldGroup", fieldGroup),
-                list("fields", new ArrayList<>(fields), true),
-                objField("sampleTime", sampleTime),
-                obj("coValueFilter",
-                        obj("idFieldFilter",
-                                obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
-                                list("$or", orIdValue),
-                                list("$and", andIdValue)
-                        )
+//        noSignList(
+//                "{",
+//                "F", "fieldGroup", fieldGroup,
+//                "L", "fields", new ArrayList<>(fields),
+//                "F", "sampleTime", sampleTime,
+//                "O", "coValueFilter",
+//        );
+
+        String aadd = aa(
+                field("L", "fields", new ArrayList<>(fields)),
+                field("F", "sampleTime", sampleTime),
+                field("O", "coValueFilter",
+                        field("O", "idFieldFilter", field("O", initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)))
                 ),
-                list("shift", shift),
-                obj("options", objField("resultTimeFormat", resultFormatIso))
-        ) + "}";
+                field("O", "options",
+                        field("F", "resultTimeFormat", resultFormatIso))
+        );
+
+//        String paramsSb = noSignList(
+//                "{",
+//                objField("fieldGroup", fieldGroup),
+//                list("fields", new ArrayList<>(fields), true),
+//                objField("sampleTime", sampleTime),
+//                obj("coValueFilter",
+//                        obj("idFieldFilter",
+//                                obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
+//                                list(Sign.OR.getValue(), orIdValue),
+//                                list(Sign.AND.getValue(), andIdValue)
+//                        )
+//                ),
+//                list("shift", shift),
+//                obj("options", objField("resultTimeFormat", resultFormatIso)),
+//                "}"
+//        );
 
         Map<String, String> params = new HashMap<>();
-        params.put("query", paramsSb);
+        params.put("query", aadd);
 
         KmxCond cond = new KmxCond();
         cond.setUrl(initParams.getUrls().get(KmxCondType.dataPoints));
@@ -70,50 +90,50 @@ public class DataPointsV120Builder extends KmxCondBuilder {
         return cond;
     }
 
-    public DataPointsV120Builder fieldGroup(String fieldGroup) {
+    public DataPointsV040Builder fieldGroup(String fieldGroup) {
         this.fieldGroup = fieldGroup;
         return this;
     }
 
-    public DataPointsV120Builder sampleTime(Date sampleTime) {
+    public DataPointsV040Builder sampleTime(Date sampleTime) {
         this.sampleTime = sampleTime.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataPointsV120Builder sampleTime(String sampleTime) {
+    public DataPointsV040Builder sampleTime(String sampleTime) {
         this.sampleTime = sampleTime;
         return this;
     }
 
     /* fields begin */
-    public DataPointsV120Builder fields(Set<String> fields) {
+    public DataPointsV040Builder fields(Set<String> fields) {
         this.fields = fields;
         return this;
     }
 
-    public DataPointsV120Builder fields(List<String> fields) {
+    public DataPointsV040Builder fields(List<String> fields) {
         this.fields = new HashSet<>(fields);
         return this;
     }
 
-    public DataPointsV120Builder fields(String[] fields) {
+    public DataPointsV040Builder fields(String[] fields) {
         Collections.addAll(this.fields, fields);
         return this;
     }
 
-    public DataPointsV120Builder field(String field) {
+    public DataPointsV040Builder field(String field) {
         this.fields.add(field);
         return this;
     }
     /* fields end */
 
     /* shift begin */
-    public DataPointsV120Builder shift(Shift shift) {
+    public DataPointsV040Builder shift(Shift shift) {
         this.shift.add(buildShift("$default", shift));
         return this;
     }
 
-    public DataPointsV120Builder shift(String field, Shift shift) {
+    public DataPointsV040Builder shift(String field, Shift shift) {
         this.shift.add(buildShift(field, shift));
         return this;
     }
@@ -123,22 +143,22 @@ public class DataPointsV120Builder extends KmxCondBuilder {
     }
     /* shift end */
 
-    public DataPointsV120Builder idValue(String idValue) {
+    public DataPointsV040Builder idValue(String idValue) {
         this.idValue = idValue;
         return this;
     }
 
-    public DataPointsV120Builder orIdValue(String field, String value) {
+    public DataPointsV040Builder orIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataPointsV120Builder andIdValue(String field, String value) {
+    public DataPointsV040Builder andIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataPointsV120Builder resultFormatIso() {
+    public DataPointsV040Builder resultFormatIso() {
         this.resultFormatIso = "iso";
         return this;
     }

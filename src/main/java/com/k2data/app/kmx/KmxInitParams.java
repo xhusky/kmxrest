@@ -7,6 +7,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * Kmx 请求初始化参数, 构建查询条件时使用
+ * <p>必须包含 {@code idField} 和 {@code urls}
+ *
+ * @see com.k2data.app.kmx.cond.KmxCond#dataPoints(KmxInitParams)
+ *
  * @author lidong 17-1-18.
  */
 public class KmxInitParams {

@@ -19,16 +19,13 @@ import java.util.concurrent.TimeUnit;
  * @date Jul 20, 2016 10:16:08 AM
  */
 public class OkhttpUtils {
-    private static final int CONNECT_TIMEOUT = 60;  
-    private static final int READ_TIMEOUT = 100;  
-    private static final int WRITE_TIMEOUT = 60;  
 
-	private static OkHttpClient client =
-	        new OkHttpClient.Builder()
-	                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)//设置读取超时时间  
-	                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)//设置写的超时时间  
-	                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)//设置连接超时时间
-	                .build();
+    private static OkHttpClient client =
+            new OkHttpClient.Builder()
+                    .readTimeout(100, TimeUnit.SECONDS)//设置读取超时时间
+                    .writeTimeout(60, TimeUnit.SECONDS)//设置写的超时时间
+                    .connectTimeout(60, TimeUnit.SECONDS)//设置连接超时时间
+                    .build();
 
     /**
      * get请求

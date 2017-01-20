@@ -1,8 +1,8 @@
 package com.k2data.app.kmx.cond;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.k2data.app.kmx.cond.serializer.*;
+
+import java.util.*;
 
 /**
  * @author lidong 17-1-11.
@@ -10,6 +10,52 @@ import java.util.List;
 public abstract class KmxCondBuilder {
 
     public abstract KmxCond build();
+
+    private SerializeWriter serializeWriter = new SerializeWriter();
+
+    public static Map<String, BaseSerializer> serializerMap = new HashMap<>();
+
+    public static BaseSerializer get(String key) {
+        return serializerMap.get(key);
+    }
+
+    public KmxCondBuilder() {
+        serializerMap.put("F", new FieldSerializer());
+        serializerMap.put("O", new ObjSerializer());
+        serializerMap.put("L", new ListSerializer());
+    }
+
+    public TempObj field(String type, String key, Object... value) {
+        TempObj obj = new TempObj();
+        obj.setType(type);
+        obj.setKey(key);
+        obj.setValue(value);
+
+        obj.setWriter(this.serializeWriter);
+
+        return obj;
+
+//        switch (type) {
+//            case "F":
+//
+//            case "O":
+//
+//            case "L":
+//
+//        }
+    }
+
+    public String aa(TempObj... tempObjs) {
+        for (TempObj obj : tempObjs) {
+            obj.write();
+        }
+
+        serializeWriter.flush();
+        String out = serializeWriter.toString();
+        serializeWriter.close();
+
+        return out;
+    }
 
     public String objField(String key, Object value) {
         return objField(key, value, true);
@@ -57,8 +103,18 @@ public abstract class KmxCondBuilder {
         return innerSb.toString();
     }
 
+    public String noSignList(SerializeWriter... serializeWriters) {
+
+        this.serializeWriter.flush();
+        String out = this.serializeWriter.toString();
+        this.serializeWriter.close();
+
+        return out;
+    }
+
     public String noSignList(String... fields) {
-        StringBuilder innerSb = new StringBuilder();
+
+
 
         int i = 0;
         for (String field : fields) {
@@ -67,13 +123,35 @@ public abstract class KmxCondBuilder {
             }
 
             if (i++ != 0) {
-                innerSb.append(",");
+                serializeWriter.write(",");
             }
 
-            innerSb.append(field);
+            serializeWriter.write(field);
         }
 
-        return innerSb.toString();
+        serializeWriter.flush();
+        String out = serializeWriter.toString();
+        serializeWriter.close();
+
+        return out;
+
+
+//        StringBuilder innerSb = new StringBuilder();
+//
+//        int i = 0;
+//        for (String field : fields) {
+//            if (field == null) {
+//                continue;
+//            }
+//
+//            if (i++ != 0) {
+//                innerSb.append(",");
+//            }
+//
+//            innerSb.append(field);
+//        }
+//
+//        return innerSb.toString();
     }
 
     public String list(String key, String... fields) {

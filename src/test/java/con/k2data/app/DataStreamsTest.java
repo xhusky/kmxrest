@@ -18,7 +18,7 @@ import org.junit.Test;
  */
 public class DataStreamsTest {
 
-    private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V120)
+    private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
             .setIdField("turbineId")
             .addUrl(KmxCondType.dataRows, "http://192.168.130.115:8089/data-service/v4/data-rows")
             .addUrl(KmxCondType.dataPoints, "http://192.168.130.115:8089/data-service/v4/data-points")

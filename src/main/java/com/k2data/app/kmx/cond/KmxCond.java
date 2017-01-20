@@ -15,16 +15,16 @@ public class KmxCond {
     private Map<String, String> params;
     private Class<?> clazz;
 
-    public static DataRowsV120Builder dataRows(KmxInitParams initParams) {
-        return new DataRowsV120Builder(initParams);
+    public static DataRowsV040Builder dataRows(KmxInitParams initParams) {
+        return new DataRowsV040Builder(initParams);
     }
 
-    public static DataPointsV120Builder dataPoints(KmxInitParams initParams) {
-        return new DataPointsV120Builder(initParams);
+    public static DataPointsV040Builder dataPoints(KmxInitParams initParams) {
+        return new DataPointsV040Builder(initParams);
     }
 
-    public static DataStreamsV120Builder dataStreams(KmxInitParams initParams) {
-        return new DataStreamsV120Builder(initParams);
+    public static DataStreamsV040Builder dataStreams(KmxInitParams initParams) {
+        return new DataStreamsV040Builder(initParams);
     }
 
     public static AssetsBuilder assets(KmxInitParams initParams) {

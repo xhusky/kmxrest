@@ -1,20 +1,21 @@
 package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.domain.DataRowsDomain;
+import com.k2data.app.kmx.domain.DataStreamsDomain;
 import com.k2data.app.kmx.enums.Aggregation;
 import com.k2data.app.kmx.enums.KmxCondType;
+import com.k2data.app.kmx.enums.Order;
 import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
 
 import java.util.*;
 
 /**
- * data-rows v1.2 查询条件 builder
+ * data-streams v0.4.0 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
  *
  * @author lidong 17-1-16.
  */
-public class DataRowsV120Builder extends KmxCondBuilder {
+public class DataStreamsV040Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
@@ -29,21 +30,19 @@ public class DataRowsV120Builder extends KmxCondBuilder {
     private String idValue;
     private List<String> orIdValue = new ArrayList<>();
     private List<String> andIdValue = new ArrayList<>();
-    private List<String> orNonIdFieldFilter = new ArrayList<>();
-    private List<String> andNonIdFieldFilter = new ArrayList<>();
 
     private List<String> aggregations = new ArrayList<>();
     private String interval;
     private Boolean naturalTimeBoundary;
     private Object fill;
 
-    private String order = "asc";   // 排序
+    private List<String> order = new ArrayList<>();   // 排序
     private Integer size;    // 每页大小 ，注:针对实时接口该字段为每个设备显示的最近点数
     private Integer page;    // 第几页
 
     private String resultFormatIso;
 
-    public DataRowsV120Builder(KmxInitParams initParams) {
+    public DataStreamsV040Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -72,14 +71,6 @@ public class DataRowsV120Builder extends KmxCondBuilder {
                                 obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
                                 list("$or", orIdValue),
                                 list("$and", andIdValue)
-                        ),
-                        obj("nonIdFieldFilter",
-                                list(Sign.AND.getValue(),
-                                        andNonIdFieldFilter
-                                ),
-                                list(Sign.OR.getValue(),
-                                        orNonIdFieldFilter
-                                )
                         )
                 ),
                 list("aggregations", aggregations),
@@ -88,7 +79,7 @@ public class DataRowsV120Builder extends KmxCondBuilder {
                         objField("naturalTimeBoundary", naturalTimeBoundary),
                         objField("fill", fill)
                 ),
-                objField("order", order),
+                list("order", order),
                 objField("size", size),
                 objField("page", page),
                 obj("options", objField("resultTimeFormat", resultFormatIso))
@@ -98,128 +89,116 @@ public class DataRowsV120Builder extends KmxCondBuilder {
         params.put("query", paramsSb);
 
         KmxCond cond = new KmxCond();
-        cond.setUrl(initParams.getUrls().get(KmxCondType.dataRows));
+        cond.setUrl(initParams.getUrls().get(KmxCondType.dataStreams));
         cond.setParams(params);
-        cond.setClazz(DataRowsDomain.class);
+        cond.setClazz(DataStreamsDomain.class);
 
         return cond;
     }
 
-    public DataRowsV120Builder fieldGroup(String fieldGroup) {
+    public DataStreamsV040Builder fieldGroup(String fieldGroup) {
         this.fieldGroup = fieldGroup;
         return this;
     }
 
-    public DataRowsV120Builder start(Date start) {
+    public DataStreamsV040Builder start(Date start) {
         this.start = start.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataRowsV120Builder start(String start) {
+    public DataStreamsV040Builder start(String start) {
         this.start = start;
         return this;
     }
 
-    public DataRowsV120Builder end(Date end) {
+    public DataStreamsV040Builder end(Date end) {
         this.end = end.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataRowsV120Builder end(String end) {
+    public DataStreamsV040Builder end(String end) {
         this.end = end;
         return this;
     }
 
     /* fields begin */
-    public DataRowsV120Builder fields(Set<String> fields) {
+    public DataStreamsV040Builder fields(Set<String> fields) {
         this.fields = fields;
         return this;
     }
 
-    public DataRowsV120Builder fields(List<String> fields) {
+    public DataStreamsV040Builder fields(List<String> fields) {
         this.fields = new HashSet<>(fields);
         return this;
     }
 
-    public DataRowsV120Builder fields(String[] fields) {
+    public DataStreamsV040Builder fields(String[] fields) {
         Collections.addAll(this.fields, fields);
         return this;
     }
 
-    public DataRowsV120Builder field(String field) {
+    public DataStreamsV040Builder field(String field) {
         this.fields.add(field);
         return this;
     }
     /* fields end */
 
-    public DataRowsV120Builder idValue(String idValue) {
+    public DataStreamsV040Builder idValue(String idValue) {
         this.idValue = idValue;
         return this;
     }
 
-    public DataRowsV120Builder orIdValue(String field, String value) {
+    public DataStreamsV040Builder orIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataRowsV120Builder andIdValue(String field, String value) {
-        this.andIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
+    public DataStreamsV040Builder andIdValue(String field, String value) {
+        this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataRowsV120Builder andNonIdFieldFilter(String field, Sign fieldSign, Object value) {
-        Object val = value instanceof String ? "\"" + value + "\"" : value;
-        this.andNonIdFieldFilter.add("{ \"" + field + "\": { \"" + fieldSign.getValue() + "\": " + val + " } }");
-        return this;
-    }
-
-    public DataRowsV120Builder orNonIdFieldFilter(String field, Sign fieldSign, Object value) {
-        Object val = value instanceof String ? "\"" + value + "\"" : value;
-        this.orNonIdFieldFilter.add("{ \"" + field + "\": { \"" + fieldSign.getValue() + "\": " + val + " } }");
-        return this;
-    }
-
-    public DataRowsV120Builder valueFilters(List<String> valueFilters) {
+    public DataStreamsV040Builder valueFilters(List<String> valueFilters) {
         this.valueFilters = valueFilters;
         return this;
     }
 
-    public DataRowsV120Builder valueFilters(String valueFilters) {
+    public DataStreamsV040Builder valueFilters(String valueFilters) {
         this.valueFilters.add(valueFilters);
         return this;
     }
 
-    public DataRowsV120Builder valueTrans(List<String> valueTrans) {
+    public DataStreamsV040Builder valueTrans(List<String> valueTrans) {
         this.valueTrans = valueTrans;
         return this;
     }
 
-    public DataRowsV120Builder valueTrans(String key, String value) {
+    public DataStreamsV040Builder valueTrans(String key, String value) {
         this.valueTrans.add("{ \"" + key + "\": " + "\"" + value + "\" }");
         return this;
     }
 
-    public DataRowsV120Builder valueTrans(String valueTrans) {
+    public DataStreamsV040Builder valueTrans(String valueTrans) {
         this.valueTrans.add(valueTrans);
         return this;
     }
 
-    public DataRowsV120Builder aggregations(String aggregations) {
+    public DataStreamsV040Builder aggregations(String aggregations) {
         this.aggregations.add(aggregations);
         return this;
     }
 
-    public DataRowsV120Builder aggregations(Aggregation... aggregations) {
+    public DataStreamsV040Builder aggregations(Aggregation... aggregations) {
         this.aggregations.add(buildAggregations("$default", aggregations));
         return this;
     }
 
-    public DataRowsV120Builder aggregations(String field, Aggregation... aggregations) {
+    public DataStreamsV040Builder aggregations(String field, Aggregation... aggregations) {
         this.aggregations.add(buildAggregations(field, aggregations));
         return this;
     }
 
-    public DataRowsV120Builder aggregations(String field, String name, Aggregation aggregation) {
+    public DataStreamsV040Builder aggregations(String field, String name, Aggregation aggregation) {
         this.aggregations.add(String.format("{ \"%s\": {\"type\": \"%s\",\"name\": \"%s\"} }",
                 field,
                 aggregation.getLowerValue(),
@@ -244,37 +223,42 @@ public class DataRowsV120Builder extends KmxCondBuilder {
         return sb.toString();
     }
 
-    public DataRowsV120Builder interval(String interval) {
+    public DataStreamsV040Builder interval(String interval) {
         this.interval = interval;
         return this;
     }
 
-    public DataRowsV120Builder naturalTimeBoundary(boolean naturalTimeBoundary) {
+    public DataStreamsV040Builder naturalTimeBoundary(boolean naturalTimeBoundary) {
         this.naturalTimeBoundary = naturalTimeBoundary;
         return this;
     }
 
-    public DataRowsV120Builder fill(Object fill) {
+    public DataStreamsV040Builder fill(Object fill) {
         this.fill = fill;
         return this;
     }
 
-    public DataRowsV120Builder desc() {
-        this.order = "desc";
+    public DataStreamsV040Builder order(String field, Order order) {
+        this.order.add(String.format("{ \"%s\": \"%s\" }", field, order.getLowerValue()));
         return this;
     }
 
-    public DataRowsV120Builder size(Integer size) {
+    public DataStreamsV040Builder order(Order order) {
+        this.order.add(String.format("{ \"$default\": \"%s\" }", order.getLowerValue()));
+        return this;
+    }
+
+    public DataStreamsV040Builder size(Integer size) {
         this.size = size;
         return this;
     }
 
-    public DataRowsV120Builder page(Integer page) {
+    public DataStreamsV040Builder page(Integer page) {
         this.page = page;
         return this;
     }
 
-    public DataRowsV120Builder resultFormatIso() {
+    public DataStreamsV040Builder resultFormatIso() {
         this.resultFormatIso = "iso";
         return this;
     }

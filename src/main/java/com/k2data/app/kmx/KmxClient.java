@@ -153,7 +153,6 @@ public class KmxClient {
      * @return 序列化后的对象
      * @throws IOException
      */
-    @SuppressWarnings("unchecked")
     private static Object handleResponse(KmxCond cond, String url, Map<String, String> params, Response response, KmxResponseHandler handler) throws IOException {
         return handleResponse(cond, url, params.toString(), response, handler);
     }
