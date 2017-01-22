@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.k2data.app.kmx.KmxClient;
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
+import com.k2data.app.kmx.domain.DataPointsDomain;
 import com.k2data.app.kmx.enums.*;
 import con.k2data.app.cond.DPTestDomain;
 import con.k2data.app.cond.IdFilterTestDomain;
@@ -11,7 +12,9 @@ import con.k2data.app.cond.OptionTest;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author lidong 17-1-20.
@@ -28,31 +31,31 @@ public class CondTest {
     public void test1() {
         long start = System.currentTimeMillis();
 
-        for (int i = 0; i < 100000; i++) {
-//            KmxCond kmxCond = KmxCond.dataRows(initParams)
-//                    .idValue("turbine_001_FCJtT_002")
-//                    .start("2016-07-01T00:00:00.000%2B08:00")
-//                    .end("2016-07-08T00:00:00.000%2B08:00")
-//                    .fields(new String[]{"windSpeed", "powerActive"})
-//                    .valueTrans("powerActive", "powerActive * 1/120")
-//                    .andNonIdFieldFilter("pitchAngle", Sign.GTE, 0)
-//                    .andNonIdFieldFilter("pitchAngle", Sign.LTE, 25)
-//                    .aggregations("windSpeed", Aggregation.VARIANCE)
-//                    .aggregations("powerProduction", "powerActive", Aggregation.STDDEV)
-//                    .interval("1d")
-//                    .fill(0)
-//                    .resultFormatIso()
-//                    .build();
-
-            KmxCond kmxCond = KmxCond.dataPoints(initParams)
-                    .field("generatorSpeed")
-                    .sampleTime("2016-08-21T18:02:52.249%2B08:00")
-                    .shift(Shift.NEAR)
+        for (int i = 0; i < 10; i++) {
+            KmxCond kmxCond = KmxCond.dataRows(initParams)
                     .idValue("turbine_001_FCJtT_002")
+                    .start("2016-07-01T00:00:00.000%2B08:00")
+                    .end("2016-07-08T00:00:00.000%2B08:00")
+                    .fields(new String[]{"windSpeed", "powerActive"})
+                    .valueTrans("powerActive", "powerActive * 1/120")
+                    .andNonIdFieldFilter("pitchAngle", Sign.GTE, 0)
+                    .andNonIdFieldFilter("pitchAngle", Sign.LTE, 25)
+                    .aggregations("windSpeed", Aggregation.VARIANCE)
+                    .aggregations("powerProduction", "powerActive", Aggregation.STDDEV)
+                    .interval("1d")
+                    .fill(0)
                     .resultFormatIso()
                     .build();
 
-            System.out.println(kmxCond.getParams());
+//            KmxCond kmxCond = KmxCond.dataPoints(initParams)
+//                    .field("generatorSpeed")
+//                    .sampleTime("2016-08-21T18:02:52.249%2B08:00")
+//                    .shift(Shift.NEAR)
+//                    .idValue("turbine_001_FCJtT_002")
+//                    .resultFormatIso()
+//                    .build();
+//
+//            System.out.println(kmxCond.getParams());
 
 //            DPTestDomain domain = new DPTestDomain();
 //            List<String> fields = new ArrayList<>();
@@ -69,6 +72,13 @@ public class CondTest {
 //            optionTest.setResultTimeFormat("iso");
 //            domain.setOptions(optionTest);
 //            JSON.toJSONString(domain);
+//        Map<String, String> params = new HashMap<>();
+//        params.put("query", "");
+//
+//        KmxCond cond = new KmxCond();
+//        cond.setUrl(initParams.getUrls().get(KmxCondType.dataPoints));
+//        cond.setParams(params);
+//        cond.setClazz(DataPointsDomain.class);
         }
 
         long end = System.currentTimeMillis();

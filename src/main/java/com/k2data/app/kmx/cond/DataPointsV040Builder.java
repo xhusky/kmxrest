@@ -44,43 +44,23 @@ public class DataPointsV040Builder extends KmxCondBuilder {
         Assert.notEmpty(fields, "Fields must not be null");
         Assert.notNull(sampleTime, "SampleTime must not be null");
 
-//        noSignList(
-//                "{",
-//                "F", "fieldGroup", fieldGroup,
-//                "L", "fields", new ArrayList<>(fields),
-//                "F", "sampleTime", sampleTime,
-//                "O", "coValueFilter",
-//        );
-
-        String aadd = aa(
-                field("L", "fields", new ArrayList<>(fields)),
-                field("F", "sampleTime", sampleTime),
-                field("O", "coValueFilter",
-                        field("O", "idFieldFilter", field("O", initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)))
+        String paramsSb = "{" + noSignList(
+                objField("fieldGroup", fieldGroup),
+                list("fields", new ArrayList<>(fields), true),
+                objField("sampleTime", sampleTime),
+                obj("coValueFilter",
+                        obj("idFieldFilter",
+                                obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
+                                list(Sign.OR.getValue(), orIdValue),
+                                list(Sign.AND.getValue(), andIdValue)
+                        )
                 ),
-                field("O", "options",
-                        field("F", "resultTimeFormat", resultFormatIso))
-        );
-
-//        String paramsSb = noSignList(
-//                "{",
-//                objField("fieldGroup", fieldGroup),
-//                list("fields", new ArrayList<>(fields), true),
-//                objField("sampleTime", sampleTime),
-//                obj("coValueFilter",
-//                        obj("idFieldFilter",
-//                                obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
-//                                list(Sign.OR.getValue(), orIdValue),
-//                                list(Sign.AND.getValue(), andIdValue)
-//                        )
-//                ),
-//                list("shift", shift),
-//                obj("options", objField("resultTimeFormat", resultFormatIso)),
-//                "}"
-//        );
+                list("shift", shift),
+                obj("options", objField("resultTimeFormat", resultFormatIso))
+        ) + "}";
 
         Map<String, String> params = new HashMap<>();
-        params.put("query", aadd);
+        params.put("query", paramsSb);
 
         KmxCond cond = new KmxCond();
         cond.setUrl(initParams.getUrls().get(KmxCondType.dataPoints));

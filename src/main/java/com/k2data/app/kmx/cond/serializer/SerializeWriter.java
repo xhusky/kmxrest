@@ -1,6 +1,5 @@
 package com.k2data.app.kmx.cond.serializer;
 
-import com.alibaba.fastjson.JSONException;
 import com.k2data.app.kmx.KmxException;
 
 import java.io.IOException;

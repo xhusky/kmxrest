@@ -69,8 +69,8 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
                 obj("coValueFilter",
                         obj("idFieldFilter",
                                 obj(initParams.getIdField(), objField(Sign.EQ.getValue(), idValue)),
-                                list("$or", orIdValue),
-                                list("$and", andIdValue)
+                                list(Sign.OR.getValue(), orIdValue),
+                                list(Sign.AND.getValue(), andIdValue)
                         )
                 ),
                 list("aggregations", aggregations),
