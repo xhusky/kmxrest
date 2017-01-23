@@ -1,6 +1,6 @@
-kmxrest
+# 调用 Kmx rest api 通用接口
 
-# 用法
+## 用法
 
 ```java
 private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
@@ -30,7 +30,7 @@ DataRowsDomain dataRowsDomain = KmxClient.postSync(kmxCond);
 更多例子见 test
 ---
 
-# 测试
+## 测试
 ```java
 long start = System.currentTimeMillis();
 for (int i = 0; i < 100000; i++) {
