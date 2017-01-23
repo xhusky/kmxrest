@@ -8,6 +8,7 @@ import java.lang.reflect.Type;
 /**
  * @author lidong 17-1-20.
  */
+@FunctionalInterface
 public interface BaseSerializer {
 
     void write(SerializeWriter writer,
