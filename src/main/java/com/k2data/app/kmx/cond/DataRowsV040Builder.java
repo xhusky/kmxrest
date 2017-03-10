@@ -38,7 +38,7 @@ public class DataRowsV040Builder extends KmxCondBuilder {
     private Object fill;
 
     private String order = "asc";   // 排序
-    private Integer size;    // 每页大小 ，注:针对实时接口该字段为每个设备显示的最近点数
+    private Integer size;    // 每页大小
     private Integer page;    // 第几页
 
     private String resultFormatIso;
