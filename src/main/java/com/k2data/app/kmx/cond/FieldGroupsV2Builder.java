@@ -76,6 +76,10 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             this.fields.add(field);
             return this;
         }
+        public PostBuilder fields(List<Field> fields) {
+            this.fields = fields;
+            return this;
+        }
         public PostBuilder addTag(String tag) {
             this.tags.add(tag);
             return this;
