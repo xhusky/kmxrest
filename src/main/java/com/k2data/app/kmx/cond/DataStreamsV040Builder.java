@@ -53,7 +53,7 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
      */
     @Override
     public KmxCond build() {
-        Assert.notEmpty(fields, "Fields must not be null");
+        Assert.notEmpty(fields, "Field must not be null");
         Assert.notNull(start, "Start must not be null");
         Assert.notNull(end, "End must not be null");
 

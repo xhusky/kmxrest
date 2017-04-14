@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class DataRowsResultsDomain {
 
-    private PageInfoDomain pageInfo;
+    private PageInfo pageInfo;
     private Map<String, String> compoundId;
     private List<String> fields = new ArrayList<>();
     private List<RowDomain> rows = new ArrayList<>();
@@ -59,11 +59,11 @@ public class DataRowsResultsDomain {
         this.compoundId = compoundId;
     }
 
-    public PageInfoDomain getPageInfo() {
+    public PageInfo getPageInfo() {
         return pageInfo;
     }
 
-    public void setPageInfo(PageInfoDomain pageInfo) {
+    public void setPageInfo(PageInfo pageInfo) {
         this.pageInfo = pageInfo;
     }
 

@@ -8,16 +8,16 @@ import java.util.Map;
  */
 public class DataStreamsResultsDomain {
 
-    private PageInfoDomain pageInfo;
+    private PageInfo pageInfo;
     private Map<String, String> compoundId;
     private String field;
     private List<List<String>> streams;
 
-    public PageInfoDomain getPageInfo() {
+    public PageInfo getPageInfo() {
         return pageInfo;
     }
 
-    public void setPageInfo(PageInfoDomain pageInfo) {
+    public void setPageInfo(PageInfo pageInfo) {
         this.pageInfo = pageInfo;
     }
 

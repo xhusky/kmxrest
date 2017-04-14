@@ -37,6 +37,23 @@ public class KmxClient {
             .build();
     }
 
+    public static void postFieldGroup(final KmxCond cond) {
+        String url = cond.getUrl();
+        String raw = cond.getParams().get("query");
+
+        try {
+            logger.info(String.format("Kmx async post. url: %s", url));
+            if (logger.isDebugEnabled()) {
+                logger.debug(String.format("params: %s", raw));
+            }
+
+            Response response = OkhttpUtils.post(url, MediaType.parse("application/json"), raw);
+
+        } catch (IOException e) {
+            throw new KmxException(String.format("Kmx post error! url: %s, params: %s", url, raw), e);
+        }
+    }
+
     /**
      * 同步 get 请求
      *

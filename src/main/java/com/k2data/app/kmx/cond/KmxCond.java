@@ -31,6 +31,10 @@ public class KmxCond {
         return new AssetsBuilder(initParams);
     }
 
+    public static FieldGroupsV2Builder fieldGroups(KmxInitParams initParams) {
+        return new FieldGroupsV2Builder(initParams);
+    }
+
     public String getUrl() {
         return url;
     }

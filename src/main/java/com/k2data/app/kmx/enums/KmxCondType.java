@@ -10,6 +10,7 @@ public enum KmxCondType {
     dataPoints,
     dataRows,
     dataStreams,
-    assets;
+    assets,
+    fieldGroups
 
 }

@@ -12,23 +12,6 @@ public abstract class KmxCondBuilder {
 
     public abstract KmxCond build();
 
-    private SerializeWriter serializeWriter;
-
-    public static IdentityHashMap<Type, BaseSerializer> serializerMap;
-
-    public static BaseSerializer get(String key) {
-        return serializerMap.get(key);
-    }
-
-    public KmxCondBuilder() {
-        serializeWriter = new SerializeWriter();
-        serializerMap = new IdentityHashMap<>();
-
-        serializerMap.put(String.class, new FieldSerializer());
-        serializerMap.put(Object.class, new ObjSerializer());
-        serializerMap.put(List.class, new ListSerializer());
-    }
-
     public String objField(String key, Object value) {
         return objField(key, value, true);
     }
@@ -76,26 +59,6 @@ public abstract class KmxCondBuilder {
     }
 
     public String noSignList(String... fields) {
-//        int i = 0;
-//        for (String field : fields) {
-//            if (field == null) {
-//                continue;
-//            }
-//
-//            if (i++ != 0) {
-//                serializeWriter.write(",");
-//            }
-//
-//            serializeWriter.write(field);
-//        }
-//
-//        try {
-//            return serializeWriter.toString();
-//        } finally {
-//            serializeWriter.close();
-//        }
-
-
         StringBuilder innerSb = new StringBuilder();
 
         int i = 0;

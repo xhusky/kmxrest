@@ -3,7 +3,7 @@ package com.k2data.app.kmx.domain;
 /**
  * @author lidong 17-1-17.
  */
-public class PageInfoDomain {
+public class PageInfo {
 
     private Integer pageNum;
     private Integer pageSize;
