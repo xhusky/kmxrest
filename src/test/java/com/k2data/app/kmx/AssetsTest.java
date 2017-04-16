@@ -1,9 +1,7 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
 import com.k2data.app.kmx.domain.AssetsDomain;
 import com.k2data.app.kmx.enums.KmxCondType;
@@ -27,7 +25,7 @@ public class AssetsTest {
                 .addParams("deviceid", "C20AD3")
                 .build();
 
-        AssetsDomain assetsDomain = KmxClient.getSync(kmxCond);
+        AssetsDomain assetsDomain = KmxClient.sync(kmxCond);
 
         System.out.println(JSON.toJSONString(assetsDomain));
 

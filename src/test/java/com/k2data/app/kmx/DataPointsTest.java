@@ -1,11 +1,9 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataPointsDomain;
+import com.k2data.app.kmx.domain.DataPoints;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.KmxRestVersion;
 import com.k2data.app.kmx.enums.Shift;
@@ -33,7 +31,7 @@ public class DataPointsTest {
                 .resultFormatIso()
                 .build();
 
-        DataPointsDomain dataPointsDomain = KmxClient.getSync(kmxCond);
+        DataPoints dataPointsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataPointsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataPointsDomain, SerializerFeature.DisableCircularReferenceDetect));

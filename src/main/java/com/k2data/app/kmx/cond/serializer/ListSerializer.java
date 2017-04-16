@@ -2,7 +2,6 @@ package com.k2data.app.kmx.cond.serializer;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.List;
 
 /**
  * @author lidong 17-1-20.

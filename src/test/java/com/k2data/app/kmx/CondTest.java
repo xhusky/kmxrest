@@ -1,20 +1,11 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
-import com.alibaba.fastjson.JSON;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataPointsDomain;
-import com.k2data.app.kmx.enums.*;
-import con.k2data.app.cond.DPTestDomain;
-import con.k2data.app.cond.IdFilterTestDomain;
-import con.k2data.app.cond.OptionTest;
+import com.k2data.app.kmx.enums.Aggregation;
+import com.k2data.app.kmx.enums.KmxCondType;
+import com.k2data.app.kmx.enums.KmxRestVersion;
+import com.k2data.app.kmx.enums.Sign;
 import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * @author lidong 17-1-20.
@@ -78,7 +69,7 @@ public class CondTest {
 //        KmxCond cond = new KmxCond();
 //        cond.setUrl(initParams.getUrls().get(KmxCondType.dataPoints));
 //        cond.setParams(params);
-//        cond.setClazz(DataPointsDomain.class);
+//        cond.setClazz(DataPoints.class);
         }
 
         long end = System.currentTimeMillis();

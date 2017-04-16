@@ -8,11 +8,11 @@ import java.util.List;
 /**
  * @author lidong 17-1-17.
  */
-public class DataRowsDomain {
+public class DataRows {
 
     private Integer code;
     private String message;
-    private List<DataRowsResultsDomain> results = new ArrayList<>();
+    private List<DataRowsResults> results = new ArrayList<>();
 
     /**
      * 获取第一个 result
@@ -20,7 +20,7 @@ public class DataRowsDomain {
      * @return results.get(0)
      */
     @JSONField(serialize = false, deserialize = false)
-    public DataRowsResultsDomain getFirstResult() {
+    public DataRowsResults getFirstResult() {
         return getResults().get(0);
     }
 
@@ -50,11 +50,11 @@ public class DataRowsDomain {
         this.message = message;
     }
 
-    public List<DataRowsResultsDomain> getResults() {
+    public List<DataRowsResults> getResults() {
         return results;
     }
 
-    public void setResults(List<DataRowsResultsDomain> results) {
+    public void setResults(List<DataRowsResults> results) {
         this.results = results;
     }
 

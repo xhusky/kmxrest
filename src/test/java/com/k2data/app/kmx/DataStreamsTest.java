@@ -1,11 +1,9 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataStreamsDomain;
+import com.k2data.app.kmx.domain.DataStreams;
 import com.k2data.app.kmx.enums.Aggregation;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.KmxRestVersion;
@@ -28,8 +26,8 @@ public class DataStreamsTest {
     public void F1_2() {
         KmxCond kmxCond = KmxCond.dataStreams(initParams)
                 .idValue("turbine_001_FCJtT_002")
-                .start("2016-11-01T00:00:00.000%2b08:00")
-                .end("2017-04-01T00:00:00.000%2b08:00")
+                .start("2016-11-01T00:00:00.000%2B08:00")
+                .end("2017-04-01T00:00:00.000%2B08:00")
                 .field("windSpeed")
                 .aggregations("windSpeed", Aggregation.MAX, Aggregation.AVG)
                 .interval("1m")
@@ -39,7 +37,7 @@ public class DataStreamsTest {
                 .resultFormatIso()
                 .build();
 
-        DataStreamsDomain dataStreamsDomain = KmxClient.getSync(kmxCond);
+        DataStreams dataStreamsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataStreamsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataStreamsDomain, SerializerFeature.DisableCircularReferenceDetect));

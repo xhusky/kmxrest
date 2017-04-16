@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * @author lidong 17-1-17.
  */
-public class DataRowsResultsDomain {
+public class DataRowsResults {
 
     private PageInfo pageInfo;
     private Map<String, String> compoundId;

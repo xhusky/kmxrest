@@ -26,7 +26,6 @@ public class AssetsBuilder extends KmxCondBuilder {
      *
      * @return 查询条件 json
      */
-    @Override
     public KmxCond build() {
         KmxCond kmxCond = new KmxCond();
         kmxCond.setUrl(initParams.getUrls().get(KmxCondType.assets));

@@ -1,11 +1,8 @@
 package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.domain.DataStreamsDomain;
-import com.k2data.app.kmx.enums.Aggregation;
-import com.k2data.app.kmx.enums.KmxCondType;
-import com.k2data.app.kmx.enums.Order;
-import com.k2data.app.kmx.enums.Sign;
+import com.k2data.app.kmx.domain.DataStreams;
+import com.k2data.app.kmx.enums.*;
 import com.k2data.app.kmx.utils.Assert;
 
 import java.util.*;
@@ -15,7 +12,7 @@ import java.util.*;
  *
  * @author lidong 17-1-16.
  */
-public class DataStreamsV040Builder extends KmxCondBuilder {
+public class DataStreamsV4Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
@@ -42,7 +39,9 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
 
     private String resultFormatIso;
 
-    public DataStreamsV040Builder(KmxInitParams initParams) {
+    private RequestType requestType = RequestType.POST;
+
+    public DataStreamsV4Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -51,7 +50,6 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
      *
      * @return 查询条件 json
      */
-    @Override
     public KmxCond build() {
         Assert.notEmpty(fields, "Field must not be null");
         Assert.notNull(start, "Start must not be null");
@@ -91,114 +89,125 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
         KmxCond cond = new KmxCond();
         cond.setUrl(initParams.getUrls().get(KmxCondType.dataStreams));
         cond.setParams(params);
-        cond.setClazz(DataStreamsDomain.class);
+        cond.setClazz(DataStreams.class);
+        cond.setRequestType(requestType);
 
         return cond;
     }
 
-    public DataStreamsV040Builder fieldGroup(String fieldGroup) {
+    public DataStreamsV4Builder post() {
+        this.requestType = RequestType.POST;
+        return this;
+    }
+
+    public DataStreamsV4Builder get() {
+        this.requestType = RequestType.GET;
+        return this;
+    }
+
+    public DataStreamsV4Builder fieldGroup(String fieldGroup) {
         this.fieldGroup = fieldGroup;
         return this;
     }
 
-    public DataStreamsV040Builder start(Date start) {
+    public DataStreamsV4Builder start(Date start) {
         this.start = start.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataStreamsV040Builder start(String start) {
+    public DataStreamsV4Builder start(String start) {
         this.start = start;
         return this;
     }
 
-    public DataStreamsV040Builder end(Date end) {
+    public DataStreamsV4Builder end(Date end) {
         this.end = end.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataStreamsV040Builder end(String end) {
+    public DataStreamsV4Builder end(String end) {
         this.end = end;
         return this;
     }
 
     /* fields begin */
-    public DataStreamsV040Builder fields(Set<String> fields) {
+    public DataStreamsV4Builder fields(Set<String> fields) {
         this.fields = fields;
         return this;
     }
 
-    public DataStreamsV040Builder fields(List<String> fields) {
+    public DataStreamsV4Builder fields(List<String> fields) {
         this.fields = new HashSet<>(fields);
         return this;
     }
 
-    public DataStreamsV040Builder fields(String[] fields) {
+    public DataStreamsV4Builder fields(String[] fields) {
         Collections.addAll(this.fields, fields);
         return this;
     }
 
-    public DataStreamsV040Builder field(String field) {
+    public DataStreamsV4Builder field(String field) {
         this.fields.add(field);
         return this;
     }
     /* fields end */
 
-    public DataStreamsV040Builder idValue(String idValue) {
+    public DataStreamsV4Builder idValue(String idValue) {
         this.idValue = idValue;
         return this;
     }
 
-    public DataStreamsV040Builder orIdValue(String field, String value) {
+    public DataStreamsV4Builder orIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataStreamsV040Builder andIdValue(String field, String value) {
+    public DataStreamsV4Builder andIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataStreamsV040Builder valueFilters(List<String> valueFilters) {
+    public DataStreamsV4Builder valueFilters(List<String> valueFilters) {
         this.valueFilters = valueFilters;
         return this;
     }
 
-    public DataStreamsV040Builder valueFilters(String valueFilters) {
+    public DataStreamsV4Builder valueFilters(String valueFilters) {
         this.valueFilters.add(valueFilters);
         return this;
     }
 
-    public DataStreamsV040Builder valueTrans(List<String> valueTrans) {
+    public DataStreamsV4Builder valueTrans(List<String> valueTrans) {
         this.valueTrans = valueTrans;
         return this;
     }
 
-    public DataStreamsV040Builder valueTrans(String key, String value) {
+    public DataStreamsV4Builder valueTrans(String key, String value) {
         this.valueTrans.add("{ \"" + key + "\": " + "\"" + value + "\" }");
         return this;
     }
 
-    public DataStreamsV040Builder valueTrans(String valueTrans) {
+    public DataStreamsV4Builder valueTrans(String valueTrans) {
         this.valueTrans.add(valueTrans);
         return this;
     }
 
-    public DataStreamsV040Builder aggregations(String aggregations) {
+    public DataStreamsV4Builder aggregations(String aggregations) {
         this.aggregations.add(aggregations);
         return this;
     }
 
-    public DataStreamsV040Builder aggregations(Aggregation... aggregations) {
+    public DataStreamsV4Builder aggregations(Aggregation... aggregations) {
         this.aggregations.add(buildAggregations("$default", aggregations));
         return this;
     }
 
-    public DataStreamsV040Builder aggregations(String field, Aggregation... aggregations) {
+    public DataStreamsV4Builder aggregations(String field, Aggregation... aggregations) {
         this.aggregations.add(buildAggregations(field, aggregations));
         return this;
     }
 
-    public DataStreamsV040Builder aggregations(String field, String name, Aggregation aggregation) {
+    public DataStreamsV4Builder aggregations(String field, String name, Aggregation aggregation) {
         this.aggregations.add(String.format("{ \"%s\": {\"type\": \"%s\",\"name\": \"%s\"} }",
                 field,
                 aggregation.getLowerValue(),
@@ -223,42 +232,42 @@ public class DataStreamsV040Builder extends KmxCondBuilder {
         return sb.toString();
     }
 
-    public DataStreamsV040Builder interval(String interval) {
+    public DataStreamsV4Builder interval(String interval) {
         this.interval = interval;
         return this;
     }
 
-    public DataStreamsV040Builder naturalTimeBoundary(boolean naturalTimeBoundary) {
+    public DataStreamsV4Builder naturalTimeBoundary(boolean naturalTimeBoundary) {
         this.naturalTimeBoundary = naturalTimeBoundary;
         return this;
     }
 
-    public DataStreamsV040Builder fill(Object fill) {
+    public DataStreamsV4Builder fill(Object fill) {
         this.fill = fill;
         return this;
     }
 
-    public DataStreamsV040Builder order(String field, Order order) {
+    public DataStreamsV4Builder order(String field, Order order) {
         this.order.add(String.format("{ \"%s\": \"%s\" }", field, order.getLowerValue()));
         return this;
     }
 
-    public DataStreamsV040Builder order(Order order) {
+    public DataStreamsV4Builder order(Order order) {
         this.order.add(String.format("{ \"$default\": \"%s\" }", order.getLowerValue()));
         return this;
     }
 
-    public DataStreamsV040Builder size(Integer size) {
+    public DataStreamsV4Builder size(Integer size) {
         this.size = size;
         return this;
     }
 
-    public DataStreamsV040Builder page(Integer page) {
+    public DataStreamsV4Builder page(Integer page) {
         this.page = page;
         return this;
     }
 
-    public DataStreamsV040Builder resultFormatIso() {
+    public DataStreamsV4Builder resultFormatIso() {
         this.resultFormatIso = "iso";
         return this;
     }

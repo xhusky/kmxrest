@@ -1,7 +1,5 @@
 package com.k2data.app.kmx.cond.serializer;
 
-import com.k2data.app.kmx.cond.KmxCondBuilder;
-
 import java.io.IOException;
 import java.lang.reflect.Type;
 

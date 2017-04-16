@@ -1,11 +1,9 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataRowsDomain;
+import com.k2data.app.kmx.domain.DataRows;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.KmxRestVersion;
 import org.junit.Assert;
@@ -36,7 +34,7 @@ public class LinGongTest {
                 .desc()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));

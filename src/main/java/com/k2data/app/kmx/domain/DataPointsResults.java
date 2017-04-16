@@ -9,7 +9,7 @@ import java.util.Map;
 /**
  * @author lidong 17-1-18.
  */
-public class DataPointsResultsDomain {
+public class DataPointsResults {
 
     private Map<String, String> compoundId;
     private String field;

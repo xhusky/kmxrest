@@ -14,11 +14,8 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * OkHttp 工具类
- * 
- * @author K2DATA.wsguo
- * @date Jul 20, 2016 10:16:08 AM
  */
-public class OkhttpUtils {
+public class OkHttpUtils {
 
     private static OkHttpClient client =
             new OkHttpClient.Builder()
@@ -160,6 +157,30 @@ public class OkhttpUtils {
     }
 
     /**
+     * put 同步请求
+     *
+     * @param url 请求地址
+     * @param raw 请求参数
+     * @return 返回结果
+     * @throws IOException
+     */
+    public static Response put(String url, MediaType mediaType, String raw) throws IOException {
+        return createPutCall(url, mediaType, raw).execute();
+    }
+
+    /**
+     * put 异步请求
+     *
+     * @param url
+     * @param mediaType
+     * @param raw
+     * @param callback
+     */
+    public static void put(String url, MediaType mediaType, String raw, Callback callback) {
+        createPutCall(url, mediaType, raw).enqueue(callback);
+    }
+
+    /**
      * 生成 get 请求的 {@link Call} 对象
      * 
      * @param url 地址
@@ -279,6 +300,19 @@ public class OkhttpUtils {
     private static Call createPostCall(String url, MediaType mediaType, String raw) {
         RequestBody requestBody = RequestBody.create(mediaType, raw);
         Request request = new Request.Builder().url(url).post(requestBody).build();
+        return client.newCall(request);
+    }
+
+    /**
+     * 生成 put 请求的 {@link Call} 对象
+     *
+     * @param url
+     * @param raw
+     * @return
+     */
+    private static Call createPutCall(String url, MediaType mediaType, String raw) {
+        RequestBody requestBody = RequestBody.create(mediaType, raw);
+        Request request = new Request.Builder().url(url).put(requestBody).build();
         return client.newCall(request);
     }
 

@@ -1,4 +1,4 @@
-package con.k2data.app.cond;
+package com.k2data.app.kmx.cond;
 
 import java.util.List;
 

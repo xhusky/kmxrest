@@ -1,16 +1,13 @@
 package com.k2data.app.kmx.cond;
 
-import com.k2data.app.kmx.cond.serializer.*;
-
-import java.lang.reflect.Type;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * @author lidong 17-1-11.
  */
 public abstract class KmxCondBuilder {
-
-    public abstract KmxCond build();
 
     public String objField(String key, Object value) {
         return objField(key, value, true);

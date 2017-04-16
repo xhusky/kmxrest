@@ -1,8 +1,9 @@
 package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.domain.DataPointsDomain;
+import com.k2data.app.kmx.domain.DataPoints;
 import com.k2data.app.kmx.enums.KmxCondType;
+import com.k2data.app.kmx.enums.RequestType;
 import com.k2data.app.kmx.enums.Shift;
 import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
@@ -14,7 +15,7 @@ import java.util.*;
  *
  * @author lidong 17-1-16.
  */
-public class DataPointsV040Builder extends KmxCondBuilder {
+public class DataPointsV4Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
@@ -30,7 +31,9 @@ public class DataPointsV040Builder extends KmxCondBuilder {
 
     private String resultFormatIso;
 
-    public DataPointsV040Builder(KmxInitParams initParams) {
+    private RequestType requestType = RequestType.POST;
+
+    public DataPointsV4Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -39,7 +42,6 @@ public class DataPointsV040Builder extends KmxCondBuilder {
      *
      * @return 查询条件 json
      */
-    @Override
     public KmxCond build() {
         Assert.notEmpty(fields, "Field must not be null");
         Assert.notNull(sampleTime, "SampleTime must not be null");
@@ -65,55 +67,66 @@ public class DataPointsV040Builder extends KmxCondBuilder {
         KmxCond cond = new KmxCond();
         cond.setUrl(initParams.getUrls().get(KmxCondType.dataPoints));
         cond.setParams(params);
-        cond.setClazz(DataPointsDomain.class);
+        cond.setClazz(DataPoints.class);
+        cond.setRequestType(requestType);
 
         return cond;
     }
 
-    public DataPointsV040Builder fieldGroup(String fieldGroup) {
+    public DataPointsV4Builder post() {
+        this.requestType = RequestType.POST;
+        return this;
+    }
+
+    public DataPointsV4Builder get() {
+        this.requestType = RequestType.GET;
+        return this;
+    }
+
+    public DataPointsV4Builder fieldGroup(String fieldGroup) {
         this.fieldGroup = fieldGroup;
         return this;
     }
 
-    public DataPointsV040Builder sampleTime(Date sampleTime) {
+    public DataPointsV4Builder sampleTime(Date sampleTime) {
         this.sampleTime = sampleTime.toInstant().toString().replace("Z", "%2B08:00");
         return this;
     }
 
-    public DataPointsV040Builder sampleTime(String sampleTime) {
+    public DataPointsV4Builder sampleTime(String sampleTime) {
         this.sampleTime = sampleTime;
         return this;
     }
 
     /* fields begin */
-    public DataPointsV040Builder fields(Set<String> fields) {
+    public DataPointsV4Builder fields(Set<String> fields) {
         this.fields = fields;
         return this;
     }
 
-    public DataPointsV040Builder fields(List<String> fields) {
+    public DataPointsV4Builder fields(List<String> fields) {
         this.fields = new HashSet<>(fields);
         return this;
     }
 
-    public DataPointsV040Builder fields(String[] fields) {
+    public DataPointsV4Builder fields(String[] fields) {
         Collections.addAll(this.fields, fields);
         return this;
     }
 
-    public DataPointsV040Builder field(String field) {
+    public DataPointsV4Builder field(String field) {
         this.fields.add(field);
         return this;
     }
     /* fields end */
 
     /* shift begin */
-    public DataPointsV040Builder shift(Shift shift) {
+    public DataPointsV4Builder shift(Shift shift) {
         this.shift.add(buildShift("$default", shift));
         return this;
     }
 
-    public DataPointsV040Builder shift(String field, Shift shift) {
+    public DataPointsV4Builder shift(String field, Shift shift) {
         this.shift.add(buildShift(field, shift));
         return this;
     }
@@ -123,22 +136,22 @@ public class DataPointsV040Builder extends KmxCondBuilder {
     }
     /* shift end */
 
-    public DataPointsV040Builder idValue(String idValue) {
+    public DataPointsV4Builder idValue(String idValue) {
         this.idValue = idValue;
         return this;
     }
 
-    public DataPointsV040Builder orIdValue(String field, String value) {
+    public DataPointsV4Builder orIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataPointsV040Builder andIdValue(String field, String value) {
+    public DataPointsV4Builder andIdValue(String field, String value) {
         this.orIdValue.add(String.format("{ \"%s\": { \"$eq\": \"%s\" } }", field, value));
         return this;
     }
 
-    public DataPointsV040Builder resultFormatIso() {
+    public DataPointsV4Builder resultFormatIso() {
         this.resultFormatIso = "iso";
         return this;
     }

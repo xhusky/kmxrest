@@ -1,11 +1,9 @@
-package con.k2data.app;
+package com.k2data.app.kmx;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.k2data.app.kmx.KmxClient;
-import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.cond.KmxCond;
-import com.k2data.app.kmx.domain.DataRowsDomain;
+import com.k2data.app.kmx.domain.DataRows;
 import com.k2data.app.kmx.enums.Aggregation;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.KmxRestVersion;
@@ -36,7 +34,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
 
         for (int i = 0; i < 10; i++) {
             System.out.println(dataRowsDomain.getFirstResult().getFieldIndex("pitchAngle"));
@@ -62,7 +60,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
@@ -73,15 +71,15 @@ public class DataRowsTest {
         KmxCond kmxCond = KmxCond.dataRows(initParams)
                 .idValue("C206D3")
                 .orIdValue("deviceid", "C20EAD")
-                .start("2012-01-01T00:00:00.000%2b08:00")
-                .end("2017-02-01T23:59:59.999%2b08:00")
+                .start("2012-01-01T00:00:00.000%2B08:00")
+                .end("2017-02-01T23:59:59.999%2B08:00")
                 .fields(new String[]{"accStatus"})
 //                .size(10)
 //                .page(1)
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
@@ -100,7 +98,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
@@ -123,7 +121,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.getSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
@@ -146,7 +144,7 @@ public class DataRowsTest {
                 .resultFormatIso()
                 .build();
 
-        DataRowsDomain dataRowsDomain = KmxClient.postSync(kmxCond);
+        DataRows dataRowsDomain = KmxClient.sync(kmxCond);
         System.out.println(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));
 
         Assert.assertNotNull(JSON.toJSONString(dataRowsDomain, SerializerFeature.DisableCircularReferenceDetect));

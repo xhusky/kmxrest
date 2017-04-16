@@ -1,17 +1,17 @@
 package com.k2data.app.kmx.cond;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.domain.AssetsDomain;
 import com.k2data.app.kmx.domain.Attribute;
 import com.k2data.app.kmx.domain.Field;
+import com.k2data.app.kmx.domain.FieldGroups;
 import com.k2data.app.kmx.enums.KmxCondType;
-import lombok.Data;
+import com.k2data.app.kmx.enums.RequestType;
+import com.k2data.app.kmx.utils.KmxClientUtils;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * fieldsGroup v2 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
@@ -21,22 +21,9 @@ import java.util.List;
 public class FieldGroupsV2Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
-    private Map<String, String> params = new HashMap<>();
 
     public FieldGroupsV2Builder(KmxInitParams initParams) {
         this.initParams = initParams;
-    }
-
-    /**
-     * 生成查询条件
-     *
-     * @return 查询条件 json
-     */
-    @Override
-    public KmxCond build() {
-        KmxCond kmxCond = new KmxCond();
-
-        return kmxCond;
     }
 
     public PostBuilder post() {
@@ -51,7 +38,11 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         return new PutBuilder();
     }
 
-    @Data
+    public AddFieldBuilder addField() {
+        return new AddFieldBuilder();
+    }
+
+//    @Data
     public class PostBuilder {
         private String id;
         private String name;
@@ -80,8 +71,12 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             this.fields = fields;
             return this;
         }
-        public PostBuilder addTag(String tag) {
-            this.tags.add(tag);
+        public PostBuilder addTag(String... tag) {
+            this.tags.addAll(Arrays.asList(tag));
+            return this;
+        }
+        public PostBuilder tags(String... tag) {
+            this.tags = Arrays.asList(tag);
             return this;
         }
         public PostBuilder addAttribute(Attribute attribute) {
@@ -90,27 +85,133 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         }
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
-            params.put("query", JSON.toJSONString(this));
+            params.put("query", JSON.toJSONString(this, SerializerFeature.DisableCircularReferenceDetect));
 
             KmxCond kmxCond = new KmxCond();
             kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups));
             kmxCond.setParams(params);
-            kmxCond.setClazz(AssetsDomain.class);
+            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setRequestType(RequestType.POST);
 
             return kmxCond;
         }
     }
 
     public class GetBuilder {
-        /**
-         * 添加 get 请求参数
-         */
-        public GetBuilder addParams(String key, String value) {
-            params.put(key, value);
+        private String id;
+        private Integer pageSize;
+        private Integer page;
+        private String order;
+        private String aggregation;
+        private String select;
+
+        public GetBuilder id(String id) {
+            this.id = id;
             return this;
+        }
+        public GetBuilder pageSize(Integer pageSize) {
+            this.pageSize = pageSize;
+            return this;
+        }
+        public GetBuilder page(Integer page) {
+            this.page = page;
+            return this;
+        }
+        public GetBuilder order(String order) {
+            this.order = order;
+            return this;
+        }
+        public GetBuilder aggregation() {
+            this.aggregation = "count";
+            return this;
+        }
+        public GetBuilder select(String... select) {
+            this.select = Arrays.stream(select).collect(Collectors.joining(","));
+            return this;
+        }
+        public KmxCond build() {
+            Map<String, String> params = new HashMap<>();
+            params.put("query", JSON.toJSONString(this, SerializerFeature.DisableCircularReferenceDetect));
+
+            String url = initParams.getUrls().get(KmxCondType.fieldGroups);
+
+            KmxCond kmxCond = new KmxCond();
+            if (KmxClientUtils.isBlank(id)) {
+                kmxCond.setUrl(url);
+            } else {
+                kmxCond.setUrl(url + '/' + id);
+            }
+            kmxCond.setParams(params);
+            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setRequestType(RequestType.GET);
+
+            return kmxCond;
         }
     }
 
-    public class PutBuilder {}
+    public class PutBuilder {
+        private String id;
+        private List<String> tags;
+        private List<Attribute> attributes;
+
+        public PutBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
+        public PutBuilder addTag(String... tag) {
+            this.tags.addAll(Arrays.asList(tag));
+            return this;
+        }
+        public PutBuilder tags(String... tag) {
+            this.tags = Arrays.asList(tag);
+            return this;
+        }
+        public PutBuilder addAttribute(Attribute attribute) {
+            this.attributes.add(attribute);
+            return this;
+        }
+        public KmxCond build() {
+            Map<String, String> params = new HashMap<>();
+            params.put("query", JSON.toJSONString(this, SerializerFeature.DisableCircularReferenceDetect));
+
+            KmxCond kmxCond = new KmxCond();
+            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups) + "/" + id);
+            kmxCond.setParams(params);
+            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setRequestType(RequestType.PUT);
+
+            return kmxCond;
+        }
+    }
+
+    public class AddFieldBuilder {
+        private String id;
+        private List<Field> fields = new ArrayList<>();
+
+        public AddFieldBuilder id(String id) {
+            this.id = id;
+            return this;
+        }
+        public AddFieldBuilder addField(Field field) {
+            this.fields.add(field);
+            return this;
+        }
+        public AddFieldBuilder fields(List<Field> fields) {
+            this.fields = fields;
+            return this;
+        }
+        public KmxCond build() {
+            Map<String, String> params = new HashMap<>();
+            params.put("query", JSON.toJSONString(this, SerializerFeature.DisableCircularReferenceDetect));
+
+            KmxCond kmxCond = new KmxCond();
+            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups) + "/addfield/" + id);
+            kmxCond.setParams(params);
+            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setRequestType(RequestType.PUT);
+
+            return kmxCond;
+        }
+    }
 
 }
