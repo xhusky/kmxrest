@@ -23,6 +23,8 @@ public class FieldGroupsV2BuilderTest {
                 .id("aaa")
                 .name("name")
                 .build();
+
+
         System.out.println(JSON.toJSONString(cond));
     }
 

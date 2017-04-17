@@ -4,6 +4,7 @@ import com.alibaba.fastjson.annotation.JSONField;
 import com.k2data.app.kmx.utils.KmxClientUtils;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Map;
  */
 public class DataPointsResults {
 
-    private Map<String, String> compoundId;
+    private Map<String, String> compoundId = new HashMap<>();
     private String field;
     private String iso;
     private Long timestamp;

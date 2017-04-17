@@ -2,7 +2,6 @@ package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.enums.RequestType;
-import lombok.Data;
 
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import java.util.Map;
  *
  * @author lidong 17-1-10.
  */
-@Data
 public class KmxCond {
 
     private String url;
@@ -31,12 +29,44 @@ public class KmxCond {
         return new DataStreamsV4Builder(initParams);
     }
 
-    public static AssetsBuilder assets(KmxInitParams initParams) {
-        return new AssetsBuilder(initParams);
+    public static AssetsV2Builder assets(KmxInitParams initParams) {
+        return new AssetsV2Builder(initParams);
     }
 
     public static FieldGroupsV2Builder fieldGroups(KmxInitParams initParams) {
         return new FieldGroupsV2Builder(initParams);
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Map<String, String> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, String> params) {
+        this.params = params;
+    }
+
+    public Class<?> getClazz() {
+        return clazz;
+    }
+
+    public void setClazz(Class<?> clazz) {
+        this.clazz = clazz;
+    }
+
+    public RequestType getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
     }
 
 }

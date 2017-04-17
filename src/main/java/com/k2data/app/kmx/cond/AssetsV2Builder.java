@@ -1,9 +1,8 @@
 package com.k2data.app.kmx.cond;
 
 import com.k2data.app.kmx.KmxInitParams;
+import com.k2data.app.kmx.domain.Assets;
 import com.k2data.app.kmx.domain.Attribute;
-import com.k2data.app.kmx.domain.Field;
-import com.k2data.app.kmx.domain.FieldGroups;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.RequestType;
 import com.k2data.app.kmx.utils.JsonUtils;
@@ -13,15 +12,15 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * fieldsGroup v2 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
+ * assets v2 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
  *
  * @author lidong 17-1-19.
  */
-public class FieldGroupsV2Builder extends KmxCondBuilder {
+public class AssetsV2Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
-    public FieldGroupsV2Builder(KmxInitParams initParams) {
+    public AssetsV2Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -37,22 +36,14 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         return new PutBuilder();
     }
 
-    public AddFieldBuilder addField() {
-        return new AddFieldBuilder();
-    }
-
     public class PostBuilder {
-        private String id;
         private String name;
         private String description;
-        private List<Field> fields = new ArrayList<>();
+        private String fieldGroupId;
+        private LinkedHashMap<String, String> compoundId = new LinkedHashMap<>();
         private List<String> tags = new ArrayList<>();
         private List<Attribute> attributes = new ArrayList<>();
 
-        public PostBuilder id(String id) {
-            this.id = id;
-            return this;
-        }
         public PostBuilder name(String name) {
             this.name = name;
             return this;
@@ -61,12 +52,12 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             this.description = description;
             return this;
         }
-        public PostBuilder addField(Field field) {
-            this.fields.add(field);
+        public PostBuilder fieldGroupId(String fieldGroupId) {
+            this.fieldGroupId = fieldGroupId;
             return this;
         }
-        public PostBuilder fields(List<Field> fields) {
-            this.fields = fields;
+        public PostBuilder addCompoundId(String key, String value) {
+            this.compoundId.put(key, value);
             return this;
         }
         public PostBuilder addTag(String... tag) {
@@ -86,9 +77,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             params.put("query", JsonUtils.toJsonString(this));
 
             KmxCond kmxCond = new KmxCond();
-            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups));
+            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.assets));
             kmxCond.setParams(params);
-            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setClazz(Assets.class);
             kmxCond.setRequestType(RequestType.POST);
 
             return kmxCond;
@@ -131,7 +122,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             Map<String, String> params = new HashMap<>();
             params.put("query", JsonUtils.toJsonString(this));
 
-            String url = initParams.getUrls().get(KmxCondType.fieldGroups);
+            String url = initParams.getUrls().get(KmxCondType.assets);
 
             KmxCond kmxCond = new KmxCond();
             if (KmxClientUtils.isBlank(id)) {
@@ -140,7 +131,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
                 kmxCond.setUrl(url + '/' + id);
             }
             kmxCond.setParams(params);
-            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setClazz(Assets.class);
             kmxCond.setRequestType(RequestType.GET);
 
             return kmxCond;
@@ -149,11 +140,26 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
 
     public class PutBuilder {
         private String id;
+        private String name;
+        private String description;
+        private String fieldGroupId;
         private List<String> tags;
         private List<Attribute> attributes;
 
         public PutBuilder id(String id) {
             this.id = id;
+            return this;
+        }
+        public PutBuilder name(String name) {
+            this.name = name;
+            return this;
+        }
+        public PutBuilder description(String description) {
+            this.description = description;
+            return this;
+        }
+        public PutBuilder fieldGroupId(String fieldGroupId) {
+            this.fieldGroupId = fieldGroupId;
             return this;
         }
         public PutBuilder addTag(String... tag) {
@@ -173,39 +179,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             params.put("query", JsonUtils.toJsonString(this));
 
             KmxCond kmxCond = new KmxCond();
-            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups) + "/" + id);
+            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.assets) + "/" + id);
             kmxCond.setParams(params);
-            kmxCond.setClazz(FieldGroups.class);
-            kmxCond.setRequestType(RequestType.PUT);
-
-            return kmxCond;
-        }
-    }
-
-    public class AddFieldBuilder {
-        private String id;
-        private List<Field> fields = new ArrayList<>();
-
-        public AddFieldBuilder id(String id) {
-            this.id = id;
-            return this;
-        }
-        public AddFieldBuilder addField(Field field) {
-            this.fields.add(field);
-            return this;
-        }
-        public AddFieldBuilder fields(List<Field> fields) {
-            this.fields = fields;
-            return this;
-        }
-        public KmxCond build() {
-            Map<String, String> params = new HashMap<>();
-            params.put("query", JsonUtils.toJsonString(this));
-
-            KmxCond kmxCond = new KmxCond();
-            kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups) + "/addfield/" + id);
-            kmxCond.setParams(params);
-            kmxCond.setClazz(FieldGroups.class);
+            kmxCond.setClazz(Assets.class);
             kmxCond.setRequestType(RequestType.PUT);
 
             return kmxCond;
