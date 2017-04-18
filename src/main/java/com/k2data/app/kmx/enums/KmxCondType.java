@@ -11,6 +11,7 @@ public enum KmxCondType {
     dataRows,
     dataStreams,
     assets,
-    fieldGroups
+    fieldGroups,
+    postData
 
 }

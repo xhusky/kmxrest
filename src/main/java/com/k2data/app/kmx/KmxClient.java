@@ -64,7 +64,18 @@ public class KmxClient {
                     break;
             }
 
-            return (T) handleResponse(cond, url, raw, response, null);
+            if (cond.getHandleResponse()) {
+                return (T) handleResponse(cond, url, raw, response, null);
+            }
+
+            if(!response.isSuccessful()) {
+                throw new KmxException(String.format("Request Kmx error! response code: %d, url: %s, params: %s",
+                        response.code(),
+                        url,
+                        raw));
+            }
+
+            return null;
         } catch (IOException e) {
             throw new KmxException(String.format("Kmx request error! %s, url: %s, params: %s", cond.getRequestType().toString(), url, raw), e);
         }
@@ -87,7 +98,16 @@ public class KmxClient {
                             logger.debug(String.format("params: %s", params));
                         }
 
-                        handleResponse(cond, url, params.toString(), response, handler);
+                        if (cond.getHandleResponse()) {
+                            handleResponse(cond, url, params.toString(), response, handler);
+                        }
+
+                        if(!response.isSuccessful()) {
+                            throw new KmxException(String.format("Request Kmx error! response code: %d, url: %s, params: %s",
+                                    response.code(),
+                                    url,
+                                    raw));
+                        }
                     }
 
                     @Override
@@ -107,7 +127,16 @@ public class KmxClient {
                             logger.debug(String.format("raw: %s", raw));
                         }
 
-                        handleResponse(cond, url, raw, response, handler);
+                        if (cond.getHandleResponse()) {
+                            handleResponse(cond, url, raw, response, handler);
+                        }
+
+                        if(!response.isSuccessful()) {
+                            throw new KmxException(String.format("Request Kmx error! response code: %d, url: %s, params: %s",
+                                    response.code(),
+                                    url,
+                                    raw));
+                        }
                     }
 
                     @Override
@@ -127,7 +156,16 @@ public class KmxClient {
                             logger.debug(String.format("raw: %s", raw));
                         }
 
-                        handleResponse(cond, url, raw, response, handler);
+                        if (cond.getHandleResponse()) {
+                            handleResponse(cond, url, raw, response, handler);
+                        }
+
+                        if(!response.isSuccessful()) {
+                            throw new KmxException(String.format("Request Kmx error! response code: %d, url: %s, params: %s",
+                                    response.code(),
+                                    url,
+                                    raw));
+                        }
                     }
 
                     @Override

@@ -16,6 +16,7 @@ public class KmxCond {
     private Map<String, String> params;
     private Class<?> clazz;
     private RequestType requestType;
+    private Boolean handleResponse = true;
 
     public static DataRowsV4Builder dataRows(KmxInitParams initParams) {
         return new DataRowsV4Builder(initParams);
@@ -35,6 +36,10 @@ public class KmxCond {
 
     public static FieldGroupsV2Builder fieldGroups(KmxInitParams initParams) {
         return new FieldGroupsV2Builder(initParams);
+    }
+
+    public static PostDataBuilder postData(KmxInitParams initParams) {
+        return new PostDataBuilder(initParams);
     }
 
     public String getUrl() {
@@ -67,6 +72,14 @@ public class KmxCond {
 
     public void setRequestType(RequestType requestType) {
         this.requestType = requestType;
+    }
+
+    public Boolean getHandleResponse() {
+        return handleResponse;
+    }
+
+    public void setHandleResponse(Boolean handleResponse) {
+        this.handleResponse = handleResponse;
     }
 
 }
