@@ -32,7 +32,7 @@ public class PostDataBuilder extends KmxCondBuilder {
     public class PostBuilder {
         private String fieldGroupId;
         private Long timestamp;
-        private LinkedHashMap<String, Object> fields;
+        private LinkedHashMap<String, Object> fields = new LinkedHashMap<>();
 
         public PostBuilder fieldGroupId(String fieldGroupId) {
             this.fieldGroupId = fieldGroupId;
