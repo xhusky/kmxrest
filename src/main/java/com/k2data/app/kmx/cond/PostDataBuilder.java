@@ -31,23 +31,23 @@ public class PostDataBuilder extends KmxCondBuilder {
 
     public class PostBuilder {
         private String fieldGroupId;
-        private Long timestamp;
-        private LinkedHashMap<String, Object> fields = new LinkedHashMap<>();
+        private Map<String, Long> sampleTime = new HashMap<>();
+        private List<Map<String, Object>> fields = new ArrayList<>();
 
         public PostBuilder fieldGroupId(String fieldGroupId) {
             this.fieldGroupId = fieldGroupId;
             return this;
         }
         public PostBuilder timestamp(Long timestamp) {
-            this.timestamp = timestamp;
+            this.sampleTime.put("timestamp", timestamp);
             return this;
         }
         public PostBuilder addField(String field, Object value) {
-            this.fields.put(field, value);
-            return this;
-        }
-        public PostBuilder fields(LinkedHashMap<String, Object> fields) {
-            this.fields = fields;
+            Map<String, Object> fieldMap = new HashMap<>();
+            fieldMap.put("fieldId", field);
+            fieldMap.put("fieldValue", value);
+
+            this.fields.add(fieldMap);
             return this;
         }
         public KmxCond build() {
