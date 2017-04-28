@@ -1,16 +1,15 @@
 package com.k2data.app.kmx.cond;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.KmxInitParams;
-import com.k2data.app.kmx.domain.Attribute;
-import com.k2data.app.kmx.domain.Field;
-import com.k2data.app.kmx.domain.FieldGroups;
 import com.k2data.app.kmx.enums.KmxCondType;
 import com.k2data.app.kmx.enums.RequestType;
 import com.k2data.app.kmx.utils.JsonUtils;
-import com.k2data.app.kmx.utils.KmxClientUtils;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * fieldsGroup v2 查询条件 builder, 可链式调用添加条件, 最后调用 {@code build()} 生成查询条件
@@ -29,6 +28,7 @@ public class PostDataBuilder extends KmxCondBuilder {
         return new PostBuilder();
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class PostBuilder {
         private String fieldGroupId;
         private Map<String, Long> sampleTime = new HashMap<>();

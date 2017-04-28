@@ -1,11 +1,14 @@
 package com.k2data.app.kmx.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author lidong 17-1-19.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Assets {
 
     private Integer code;

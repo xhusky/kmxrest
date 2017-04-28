@@ -1,5 +1,7 @@
 package com.k2data.app.kmx.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.List;
 /**
  * @author lidong9144@163.com
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FieldGroup {
 
     private String id;

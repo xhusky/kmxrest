@@ -1,6 +1,7 @@
 package com.k2data.app.kmx.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.List;
 /**
  * @author lidong 17-1-17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataRows {
 
     private Integer code;

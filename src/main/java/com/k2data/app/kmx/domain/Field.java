@@ -1,13 +1,14 @@
 package com.k2data.app.kmx.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.enums.ValueType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author lidong9144@163.com 17-4-13.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Field {
 
     private String id;
@@ -15,7 +16,7 @@ public class Field {
     private Boolean isIdField;
     private String description;
     private ValueType valueType;
-    private List<Long> intervals = new ArrayList<>();
+    private List<Long> intervals;
     private String unit;
 
     private String systemId;

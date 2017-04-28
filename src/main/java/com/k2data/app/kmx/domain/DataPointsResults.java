@@ -1,6 +1,7 @@
 package com.k2data.app.kmx.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.utils.KmxClientUtils;
 
 import java.util.Date;
@@ -10,6 +11,7 @@ import java.util.Map;
 /**
  * @author lidong 17-1-18.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataPointsResults {
 
     private Map<String, String> compoundId = new HashMap<>();

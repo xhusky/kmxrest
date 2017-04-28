@@ -1,6 +1,7 @@
 package com.k2data.app.kmx.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.utils.KmxClientUtils;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 /**
  * @author lidong 17-1-17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class RowDomain {
 
     private List<Object> values = new ArrayList<>();

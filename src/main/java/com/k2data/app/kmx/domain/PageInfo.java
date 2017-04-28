@@ -1,8 +1,11 @@
 package com.k2data.app.kmx.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 /**
  * @author lidong 17-1-17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class PageInfo {
 
     private Integer pageNum;

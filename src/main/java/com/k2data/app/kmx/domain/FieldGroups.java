@@ -1,11 +1,14 @@
 package com.k2data.app.kmx.domain;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author lidong9144@163.com 17-4-13.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class FieldGroups {
 
     private Integer code;

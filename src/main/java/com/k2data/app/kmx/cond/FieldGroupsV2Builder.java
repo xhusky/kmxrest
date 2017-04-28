@@ -1,5 +1,6 @@
 package com.k2data.app.kmx.cond;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.domain.Attribute;
 import com.k2data.app.kmx.domain.Field;
@@ -41,6 +42,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         return new AddFieldBuilder();
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class PostBuilder {
         private String id;
         private String name;
@@ -95,6 +97,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class GetBuilder {
         private String id;
         private Integer pageSize;
@@ -147,6 +150,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class PutBuilder {
         private String id;
         private List<String> tags;
@@ -182,6 +186,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class AddFieldBuilder {
         private String id;
         private List<Field> fields = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.k2data.app.kmx.domain;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.KmxException;
 import com.k2data.app.kmx.utils.Assert;
 
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @author lidong 17-1-17.
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class DataRowsResults {
 
     private PageInfo pageInfo;

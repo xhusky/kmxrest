@@ -1,5 +1,6 @@
 package com.k2data.app.kmx.cond;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.k2data.app.kmx.KmxInitParams;
 import com.k2data.app.kmx.domain.Assets;
 import com.k2data.app.kmx.domain.Attribute;
@@ -36,6 +37,7 @@ public class AssetsV2Builder extends KmxCondBuilder {
         return new PutBuilder();
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class PostBuilder {
         private String name;
         private String description;
@@ -86,6 +88,7 @@ public class AssetsV2Builder extends KmxCondBuilder {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class GetBuilder {
         private String id;
         private Integer pageSize;
@@ -138,6 +141,7 @@ public class AssetsV2Builder extends KmxCondBuilder {
         }
     }
 
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     public class PutBuilder {
         private String id;
         private String name;
