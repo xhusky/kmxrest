@@ -2,10 +2,7 @@ package com.k2data.app.kmx.domain;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lidong9144@163.com 17-4-17.
@@ -13,7 +10,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Asset {
 
-    private LinkedHashMap<String, String> compoundId = new LinkedHashMap<>();
+    private Map<String, String> compoundId = new HashMap<>();
     private String id;
     private String name;
     private String url;
@@ -27,11 +24,11 @@ public class Asset {
     private List<Attribute> attributes = new ArrayList<>();
     private List<Field> fields = new ArrayList<>();
 
-    public LinkedHashMap<String, String> getCompoundId() {
+    public Map<String, String> getCompoundId() {
         return compoundId;
     }
 
-    public void setCompoundId(LinkedHashMap<String, String> compoundId) {
+    public void setCompoundId(HashMap<String, String> compoundId) {
         this.compoundId = compoundId;
     }
 
