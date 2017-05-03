@@ -43,9 +43,15 @@ public class PostDataBuilder extends KmxCondBuilder {
             return this;
         }
         public PostBuilder addField(String field, Object value) {
+            return addField(field, value, false);
+        }
+        public PostBuilder addField(String field, Object value, boolean isIdField) {
             Map<String, Object> fieldMap = new HashMap<>();
             fieldMap.put("fieldId", field);
             fieldMap.put("fieldValue", value);
+            if (isIdField) {
+                fieldMap.put("isIdField", true);
+            }
 
             this.fields.add(fieldMap);
             return this;
