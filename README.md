@@ -39,8 +39,12 @@ private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
 
 2.查询 api
 
+`KmxCond` 为调用 kmx api 的参数设置，全部为链式调用，添加完必要的参数后调用 `build()` 生成请求条件。
+
+以下为一个例子，更多例子见代码 test
+
 ```java
-// initParams 是 1 中的
+// initParams 是 1 中的创建的 KmxInitParams
 KmxCond kmxCond = KmxCond.dataRows(initParams)
                 .idValue("turbine_001_FCJtT_002")
                 .start("2016-07-01T00:00:00.000%2B08:00")
@@ -55,11 +59,26 @@ KmxCond kmxCond = KmxCond.dataRows(initParams)
                 .fill(0)
                 .resultFormatIso()
                 .build();
-                
+```
+
+参数设备好后使用 `KmxClient` 请求 Kmx，`KmxClient` 提供两种调用方法. 
+
+- sync 同步调用
+
+```java
 DataRowsDomain dataRowsDomain = KmxClient.postSync(kmxCond);
 ```
 
-更多例子见 test
+- async 异步调用
+
+默认并发数为 20, 暂不支持修改
+
+```java
+KmxClient.postAsync(kmxCond, (rsp) -> {
+    // callback do something
+});
+```
+
 ---
 
 ## 测试
