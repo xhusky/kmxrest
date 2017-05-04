@@ -17,9 +17,13 @@ v1.2.0
 - FieldGroup
 - Asset
 
+### 数据实时写入
 
+- Restful api
 
 ## 用法
+
+1.首先创建一个全局的设置变量
 
 ```java
 private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
@@ -27,7 +31,16 @@ private KmxInitParams initParams = new KmxInitParams(KmxRestVersion.V040)
             .addUrl(KmxCondType.dataRows, "http://192.168.130.115:8089/data-service/v4/data-rows")
             .addUrl(KmxCondType.dataPoints, "http://192.168.130.115:8089/data-service/v4/data-points")
             .addUrl(KmxCondType.dataStreams, "http://192.168.130.115:8089/data-service/v4/data-streams");
-            
+```
+
+`idField` 为 `fieldGroup` 的 `idFieldId`
+
+`addUrl()` 用来添加调用 kmx 接口的地址，`KmxCondType` 枚举为当前支持的接口，和 `KmxCond` 中的类型对应。这里添加需要调用的 api 地址即可，不用全部添加。
+
+2.查询 api
+
+```java
+// initParams 是 1 中的
 KmxCond kmxCond = KmxCond.dataRows(initParams)
                 .idValue("turbine_001_FCJtT_002")
                 .start("2016-07-01T00:00:00.000%2B08:00")
