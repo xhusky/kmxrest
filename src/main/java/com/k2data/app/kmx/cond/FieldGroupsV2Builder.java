@@ -205,7 +205,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         }
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
-            params.put("query", JsonUtils.toJsonString(this));
+            params.put("query", JsonUtils.toJsonString(this.fields));
 
             KmxCond kmxCond = new KmxCond();
             kmxCond.setUrl(initParams.getUrls().get(KmxCondType.fieldGroups) + "/addfield/" + id);
