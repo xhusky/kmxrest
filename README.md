@@ -1,5 +1,24 @@
 # 调用 Kmx rest api 通用接口
 
+## 支持的版本
+
+v1.2.0
+
+## 支持的接口
+
+### 动态数据查询
+
+- Data-points
+- Data-rows
+- Data-streams
+
+### 元数据和静态数据
+
+- FieldGroup
+- Asset
+
+
+
 ## 用法
 
 ```java
