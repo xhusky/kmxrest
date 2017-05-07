@@ -18,18 +18,4 @@ public class AssetsTest {
             .setIdField("turbineId")
             .addUrl(KmxCondType.assets, "http://192.168.130.115:8081/data-service/v2/assets");
 
-    @Test
-    public void test1() {
-        KmxCond kmxCond = KmxCond.assets(initParams)
-                .addParams("select", "fieldGroupId")
-                .addParams("deviceid", "C20AD3")
-                .build();
-
-        Assets assetsDomain = KmxClient.sync(kmxCond);
-
-        System.out.println(JSON.toJSONString(assetsDomain));
-
-        Assert.assertNotNull(JSON.toJSONString(assetsDomain, SerializerFeature.DisableCircularReferenceDetect));
-    }
-
 }

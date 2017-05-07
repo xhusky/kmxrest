@@ -18,11 +18,11 @@ import java.util.stream.Collectors;
  *
  * @author lidong 17-1-19.
  */
-public class FieldGroupsV2Builder extends KmxCondBuilder {
+public class FieldGroupsV4Builder extends KmxCondBuilder {
 
     private KmxInitParams initParams;
 
-    public FieldGroupsV2Builder(KmxInitParams initParams) {
+    public FieldGroupsV4Builder(KmxInitParams initParams) {
         this.initParams = initParams;
     }
 
@@ -47,9 +47,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
         private String id;
         private String name;
         private String description;
-        private List<Field> fields = new ArrayList<>();
-        private List<String> tags = new ArrayList<>();
-        private List<Attribute> attributes = new ArrayList<>();
+        private List<Field> fields;
+        private List<String> tags;
+        private List<Attribute> attributes;
 
         public PostBuilder id(String id) {
             this.id = id;
@@ -64,6 +64,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             return this;
         }
         public PostBuilder addField(Field field) {
+            if (fields == null) {
+                this.fields = new ArrayList<>();
+            }
             this.fields.add(field);
             return this;
         }
@@ -72,6 +75,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             return this;
         }
         public PostBuilder addTag(String... tag) {
+            if (this.tags == null) {
+                this.tags = new ArrayList<>();
+            }
             this.tags.addAll(Arrays.asList(tag));
             return this;
         }
@@ -80,9 +86,13 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             return this;
         }
         public PostBuilder addAttribute(Attribute attribute) {
+            if (this.attributes == null) {
+                this.attributes = new ArrayList<>();
+            }
             this.attributes.add(attribute);
             return this;
         }
+
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
             params.put("query", JsonUtils.toJsonString(this));
@@ -130,6 +140,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             this.select = Arrays.stream(select).collect(Collectors.joining(","));
             return this;
         }
+
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
             params.put("query", JsonUtils.toJsonString(this));
@@ -161,6 +172,9 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             return this;
         }
         public PutBuilder addTag(String... tag) {
+            if (tags == null) {
+                this.tags = new ArrayList<>();
+            }
             this.tags.addAll(Arrays.asList(tag));
             return this;
         }
@@ -169,9 +183,13 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             return this;
         }
         public PutBuilder addAttribute(Attribute attribute) {
+            if (this.attributes == null) {
+                this.attributes = new ArrayList<>();
+            }
             this.attributes.add(attribute);
             return this;
         }
+
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
             params.put("query", JsonUtils.toJsonString(this));
@@ -189,13 +207,16 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public class AddFieldBuilder {
         private String id;
-        private List<Field> fields = new ArrayList<>();
+        private List<Field> fields;
 
         public AddFieldBuilder id(String id) {
             this.id = id;
             return this;
         }
         public AddFieldBuilder addField(Field field) {
+            if (this.fields == null) {
+                this.fields = new ArrayList<>();
+            }
             this.fields.add(field);
             return this;
         }
@@ -203,6 +224,7 @@ public class FieldGroupsV2Builder extends KmxCondBuilder {
             this.fields = fields;
             return this;
         }
+
         public KmxCond build() {
             Map<String, String> params = new HashMap<>();
             params.put("query", JsonUtils.toJsonString(this.fields));

@@ -16,28 +16,64 @@ public class KmxCond {
     private Map<String, String> params;
     private Class<?> clazz;
     private RequestType requestType;
-    private Boolean handleResponse = true;
+    private Boolean handleResponse = true;  // 是否处理请求的返回结果, 如果请求不返回结果就置为 false
 
+    /**
+     * Data-rows restful api
+     *
+     * @param initParams
+     * @return
+     */
     public static DataRowsV4Builder dataRows(KmxInitParams initParams) {
         return new DataRowsV4Builder(initParams);
     }
 
+    /**
+     * Data-points restful api
+     *
+     * @param initParams
+     * @return
+     */
     public static DataPointsV4Builder dataPoints(KmxInitParams initParams) {
         return new DataPointsV4Builder(initParams);
     }
 
+    /**
+     * Data-streams restful api
+     *
+     * @param initParams
+     * @return
+     */
     public static DataStreamsV4Builder dataStreams(KmxInitParams initParams) {
         return new DataStreamsV4Builder(initParams);
     }
 
+    /**
+     * Assets restful api
+     *
+     * @param initParams
+     * @return
+     */
     public static AssetsV2Builder assets(KmxInitParams initParams) {
         return new AssetsV2Builder(initParams);
     }
 
-    public static FieldGroupsV2Builder fieldGroups(KmxInitParams initParams) {
-        return new FieldGroupsV2Builder(initParams);
+    /**
+     * FieldGroups restful api
+     *
+     * @param initParams
+     * @return
+     */
+    public static FieldGroupsV4Builder fieldGroups(KmxInitParams initParams) {
+        return new FieldGroupsV4Builder(initParams);
     }
 
+    /**
+     * 实时数据写入 restful api
+     *
+     * @param initParams
+     * @return
+     */
     public static PostDataBuilder postData(KmxInitParams initParams) {
         return new PostDataBuilder(initParams);
     }
