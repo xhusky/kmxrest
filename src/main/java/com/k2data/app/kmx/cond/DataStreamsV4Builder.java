@@ -5,6 +5,7 @@ import com.k2data.app.kmx.domain.DataStreams;
 import com.k2data.app.kmx.enums.*;
 import com.k2data.app.kmx.utils.Assert;
 
+import com.k2data.app.kmx.utils.KmxClientUtils;
 import java.util.*;
 
 /**
@@ -111,7 +112,7 @@ public class DataStreamsV4Builder extends KmxCondBuilder {
     }
 
     public DataStreamsV4Builder start(Date start) {
-        this.start = start.toInstant().toString().replace("Z", "%2B08:00");
+        this.start = KmxClientUtils.format(start);
         return this;
     }
 
@@ -121,7 +122,7 @@ public class DataStreamsV4Builder extends KmxCondBuilder {
     }
 
     public DataStreamsV4Builder end(Date end) {
-        this.end = end.toInstant().toString().replace("Z", "%2B08:00");
+        this.end = KmxClientUtils.format(end);
         return this;
     }
 

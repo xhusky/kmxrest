@@ -8,6 +8,7 @@ import com.k2data.app.kmx.enums.RequestType;
 import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
 
+import com.k2data.app.kmx.utils.KmxClientUtils;
 import java.util.*;
 
 /**
@@ -124,7 +125,7 @@ public class DataRowsV4Builder extends KmxCondBuilder {
     }
 
     public DataRowsV4Builder start(Date start) {
-        this.start = start.toInstant().toString().replace("Z", "%2B08:00");
+        this.start = KmxClientUtils.format(start);
         return this;
     }
 
@@ -134,7 +135,7 @@ public class DataRowsV4Builder extends KmxCondBuilder {
     }
 
     public DataRowsV4Builder end(Date end) {
-        this.end = end.toInstant().toString().replace("Z", "%2B08:00");
+        this.end = KmxClientUtils.format(end);
         return this;
     }
 

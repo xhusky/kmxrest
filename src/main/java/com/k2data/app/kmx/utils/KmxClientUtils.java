@@ -1,13 +1,13 @@
 package com.k2data.app.kmx.utils;
 
 import com.k2data.app.kmx.KmxException;
-
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.time.DateFormatUtils;
 
 /**
  * @author lidong 17-1-16.
@@ -97,4 +97,8 @@ public class KmxClientUtils {
         throw new KmxException("Unable to parse the date: " + str);
     }
 
+    public static String format(Date date) {
+        return DateFormatUtils.format(date, "yyyy-MM-dd'T'HH:mm:ss'Z'")
+            .replace("Z", "%2B08:00");
+    }
 }

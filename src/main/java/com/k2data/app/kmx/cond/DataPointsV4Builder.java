@@ -8,6 +8,7 @@ import com.k2data.app.kmx.enums.Shift;
 import com.k2data.app.kmx.enums.Sign;
 import com.k2data.app.kmx.utils.Assert;
 
+import com.k2data.app.kmx.utils.KmxClientUtils;
 import java.util.*;
 
 /**
@@ -89,7 +90,7 @@ public class DataPointsV4Builder extends KmxCondBuilder {
     }
 
     public DataPointsV4Builder sampleTime(Date sampleTime) {
-        this.sampleTime = sampleTime.toInstant().toString().replace("Z", "%2B08:00");
+        this.sampleTime = KmxClientUtils.format(sampleTime);
         return this;
     }
 
